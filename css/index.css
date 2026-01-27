@@ -1,0 +1,230 @@
+/* Index page specific styles */
+
+/* Hero Section */
+.hero-section {
+    text-align: center;
+    padding: 40px 0;
+    margin-bottom: 40px;
+}
+
+.hero-title {
+    font-size: 32px;
+    font-weight: 700;
+    margin-bottom: 16px;
+}
+
+.hero-subtitle {
+    font-size: 18px;
+    color: #a8a8a8;
+    margin-bottom: 32px;
+}
+
+/* Places Grid */
+.places-section {
+    margin-bottom: 40px;
+}
+
+.section-title {
+    font-size: 24px;
+    font-weight: 600;
+    margin-bottom: 24px;
+    text-align: center;
+}
+
+.places-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 24px;
+    padding: 0;
+}
+
+/* Place Cards - Unified for both authenticated and anonymous users */
+.place-card-container {
+    background-color: #000;
+    border: 1px solid #262626;
+    border-radius: 12px;
+    overflow: hidden;
+}
+
+.place-card {
+    text-decoration: none;
+    color: inherit;
+    display: block;
+}
+
+.place-card-container:hover {
+    border-color: #0095f6;
+}
+
+/* For authenticated users - clickable cards */
+a.place-card {
+    cursor: pointer;
+    transition: border-color 0.2s ease;
+}
+
+/* For anonymous users - non-clickable cards */
+div.place-card {
+    cursor: default;
+}
+
+.card-header {
+    padding: 16px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    border-bottom: 1px solid #262626;
+}
+
+.location-icon {
+    width: 32px;
+    height: 32px;
+    background-color: #262626;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px;
+}
+
+.card-location {
+    flex: 1;
+    min-width: 0; /* Allow text truncation */
+}
+
+.place-name {
+    font-weight: 600;
+    font-size: 16px;
+    margin-bottom: 2px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.place-address {
+    color: #a8a8a8;
+    font-size: 14px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.card-content {
+    padding: 16px;
+}
+
+.place-description {
+    color: #fff;
+    font-size: 14px;
+    line-height: 1.5;
+    margin-bottom: 12px;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.card-footer {
+    padding: 0 16px 16px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.place-info {
+    display: flex;
+    align-items: center;
+}
+
+.place-pincode {
+    background-color: #262626;
+    color: #0095f6;
+    padding: 6px 12px;
+    border-radius: 16px;
+    font-size: 12px;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.place-actions {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+}
+
+.action-btn {
+    background: none;
+    border: none;
+    color: #a8a8a8;
+    cursor: pointer;
+    padding: 6px;
+    border-radius: 4px;
+    font-size: 16px;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    transition: color 0.2s ease;
+}
+
+.action-btn:hover {
+    color: #fff;
+}
+
+.action-btn.liked {
+    color: #ed4956;
+}
+
+.action-btn.disliked {
+    color: #0095f6;
+}
+
+.action-btn span {
+    font-size: 12px;
+    font-weight: 500;
+}
+
+/* Mobile Responsive */
+@media (max-width: 768px) {
+    .hero-title {
+        font-size: 28px;
+    }
+
+    .hero-subtitle {
+        font-size: 16px;
+    }
+
+    .places-grid {
+        grid-template-columns: 1fr;
+        gap: 16px;
+    }
+}
+
+@media (max-width: 480px) {
+    .hero-section {
+        padding: 24px 0;
+    }
+
+    .hero-title {
+        font-size: 24px;
+    }
+
+    .btn-primary {
+        padding: 10px 24px;
+        font-size: 14px;
+    }
+
+    .card-footer {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 12px;
+    }
+
+    .place-actions {
+        width: 100%;
+        justify-content: space-around;
+    }
+}

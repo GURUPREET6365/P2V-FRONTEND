@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Place Details - P2V</title>
+    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="css/place-details.css">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="index.html" class="logo">P2V</a>
+            
+            <ul class="nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="index.html#places">Places</a></li>
+                <li><a href="index.html#about">About</a></li>
+            </ul>
+            
+            <a href="settings.html" class="user-profile" id="userProfile">
+                👤
+            </a>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <!-- Loading State -->
+        <div class="loading" id="loadingState">
+            <div class="loading-spinner"></div>
+            <p>Loading place details...</p>
+        </div>
+
+        <!-- Error State -->
+        <div class="error" id="errorState" style="display: none;">
+            <p>Failed to load place details. Please try again later.</p>
+            <a href="index.html" class="btn-secondary">Back to Home</a>
+        </div>
+
+        <!-- Place Details -->
+        <div class="place-details-container" id="placeDetailsContainer" style="display: none;">
+            <!-- Back Button -->
+            <div class="back-navigation">
+                <a href="index.html" class="back-btn">← Back to Places</a>
+            </div>
+
+            <!-- Place Header -->
+            <div class="place-header">
+                <div class="place-icon">📍</div>
+                <div class="place-title-section">
+                    <h1 class="place-title" id="placeTitle">Place Name</h1>
+                    <p class="place-address" id="placeAddress">Place Address</p>
+                </div>
+            </div>
+
+            <!-- Place Content -->
+            <div class="place-content">
+                <div class="place-description-section">
+                    <h2>About This Place</h2>
+                    <p class="place-description" id="placeDescription">Place description will be loaded here...</p>
+                </div>
+
+                <!-- Place Info -->
+                <div class="place-info-section">
+                    <div class="info-grid">
+                        <div class="info-item">
+                            <span class="info-label">📍 Pincode</span>
+                            <span class="info-value" id="placePincode">-</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Actions Section -->
+                <div class="actions-section">
+                    <div class="vote-actions">
+                        <button class="vote-btn like-btn" id="likeBtn" onclick="votePlace(true)">
+                            <span class="vote-icon">❤️</span>
+                            <span class="vote-text">Like</span>
+                        </button>
+                        <button class="vote-btn dislike-btn" id="dislikeBtn" onclick="votePlace(false)">
+                            <span class="vote-icon">👎</span>
+                            <span class="vote-text">Dislike</span>
+                        </button>
+                    </div>
+                    <button class="share-btn" id="shareBtn" onclick="shareCurrentPlace()">
+                        <span class="share-icon">📤</span>
+                        <span class="share-text">Share</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script src="js/auth.js"></script>
+    <script src="js/place-details.js"></script>
+</body>
+</html>

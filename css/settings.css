@@ -1,0 +1,176 @@
+/* Settings page specific styles */
+
+.settings-container {
+    background-color: #000;
+    border: 1px solid #262626;
+    border-radius: 12px;
+    padding: 40px;
+    max-width: 500px;
+    width: 100%;
+    margin: 0 auto;
+    margin-top: 80px;
+}
+
+.settings-title {
+    font-size: 28px;
+    font-weight: 600;
+    margin-bottom: 32px;
+    text-align: center;
+}
+
+.back-button {
+    background-color: #262626;
+    color: white;
+    padding: 8px 16px;
+    border: none;
+    border-radius: 6px;
+    font-size: 14px;
+    cursor: pointer;
+    text-decoration: none;
+    display: inline-block;
+    margin-bottom: 24px;
+}
+
+.login-prompt {
+    color: #a8a8a8;
+    margin-bottom: 24px;
+    text-align: center;
+    font-size: 16px;
+}
+
+.user-profile-section {
+    text-align: center;
+    margin-bottom: 32px;
+}
+
+.profile-image {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    margin-bottom: 16px;
+    border: 3px solid #262626;
+}
+
+.user-name {
+    font-size: 24px;
+    font-weight: 600;
+    margin-bottom: 8px;
+    color: #fff;
+}
+
+.user-email {
+    color: #a8a8a8;
+    font-size: 16px;
+    margin-bottom: 8px;
+}
+
+.user-role {
+    color: #a8a8a8;
+    font-size: 14px;
+    background-color: #262626;
+    padding: 4px 12px;
+    border-radius: 12px;
+    display: inline-block;
+}
+
+.user-stats {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+    gap: 16px;
+    margin: 24px 0;
+}
+
+.stat-item {
+    background-color: #111;
+    border: 1px solid #262626;
+    border-radius: 8px;
+    padding: 16px;
+    text-align: center;
+}
+
+.stat-number {
+    font-size: 20px;
+    font-weight: 600;
+    color: #0095f6;
+    margin-bottom: 4px;
+}
+
+.stat-label {
+    font-size: 12px;
+    color: #a8a8a8;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.settings-actions {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-top: 32px;
+}
+
+.action-button {
+    padding: 12px 20px;
+    border: none;
+    border-radius: 8px;
+    font-size: 14px;
+    cursor: pointer;
+    text-decoration: none;
+    text-align: center;
+    font-weight: 500;
+}
+
+.action-button.primary {
+    background-color: #0095f6;
+    color: white;
+}
+
+.action-button.secondary {
+    background-color: #262626;
+    color: white;
+}
+
+.action-button.danger {
+    background-color: #ed4956;
+    color: white;
+}
+
+/* Mobile Responsive */
+@media (max-width: 768px) {
+    .settings-container {
+        margin-top: 70px;
+        padding: 30px 20px;
+    }
+
+    .settings-title {
+        font-size: 24px;
+    }
+
+    .profile-image {
+        width: 80px;
+        height: 80px;
+    }
+
+    .user-name {
+        font-size: 20px;
+    }
+
+    .user-stats {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 480px) {
+    .settings-container {
+        margin: 70px 10px 20px;
+        padding: 24px 16px;
+    }
+
+    .user-stats {
+        grid-template-columns: 1fr;
+    }
+
+    .settings-actions {
+        gap: 8px;
+    }
+}

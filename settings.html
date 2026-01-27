@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Settings - P2V</title>
+    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="css/settings.css">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="index.html" class="logo">P2V</a>
+            
+            <ul class="nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="index.html#places">Places</a></li>
+                <li><a href="index.html#about">About</a></li>
+            </ul>
+            
+            <a href="settings.html" class="user-profile" id="userProfile">
+                👤
+            </a>
+        </div>
+    </nav>
+
+    <div class="settings-container">
+        <a href="index.html" class="back-button">← Back to Home</a>
+        <h1 class="settings-title">Settings</h1>
+        
+        <!-- Loading State -->
+        <div class="loading" id="loadingState">
+            <div class="loading-spinner"></div>
+            <p>Loading your profile...</p>
+        </div>
+
+        <!-- Authenticated State -->
+        <div id="authenticatedState" style="display: none;">
+            <!-- User profile will be inserted here by JavaScript -->
+        </div>
+    </div>
+
+    <script src="js/auth.js"></script>
+    <script src="js/settings.js"></script>
+</body>
+</html>

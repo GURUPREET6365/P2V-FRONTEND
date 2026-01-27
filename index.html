@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>P2V - Place to Visit</title>
+    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="css/index.css">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="#" class="logo">P2V</a>
+            
+            <ul class="nav-links">
+                <li><a href="#home">Home</a></li>
+                <li><a href="#places">Places</a></li>
+                <li><a href="#about">About</a></li>
+            </ul>
+            
+            <a href="settings.html" class="user-profile" id="userProfile">
+                👤
+            </a>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <!-- Hero Section -->
+        <section class="hero-section" id="home">
+            <h1 class="hero-title">Discover Amazing Places</h1>
+            <p class="hero-subtitle">Share your favorite places and discover new ones recommended by the community</p>
+            <a href="login.html" class="btn-primary" id="ctaButton">Sign In to Share</a>
+        </section>
+
+        <!-- Places Section -->
+        <section class="places-section" id="places">
+            <h2 class="section-title">Featured Places</h2>
+            
+            <!-- Loading State -->
+            <div class="loading" id="loadingState">
+                <div class="loading-spinner"></div>
+                <p>Loading amazing places...</p>
+            </div>
+
+            <!-- Error State -->
+            <div class="error" id="errorState" style="display: none;">
+                <p>Failed to load places. Please try again later.</p>
+            </div>
+
+            <!-- Places Grid -->
+            <div class="places-grid" id="placesGrid" style="display: none;">
+                <!-- Places will be dynamically loaded here -->
+            </div>
+        </section>
+    </main>
+
+    <script src="js/auth.js"></script>
+    <script src="js/index.js"></script>
+</body>
+</html>
