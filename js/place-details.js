@@ -55,7 +55,7 @@ async function loadPlaceDetails(placeId) {
             }
         } else {
             // Anonymous user - get place from all places endpoint
-            const allPlacesResponse = await fetch('http://127.0.0.1:8000/api/all/place');
+            const allPlacesResponse = await fetch('http://127.0.0.1:8000api/all/place');
             if (allPlacesResponse.ok) {
                 const allPlaces = await allPlacesResponse.json();
                 placeData = allPlaces.find(p => p.id == placeId);

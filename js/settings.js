@@ -1,108 +1,63 @@
-// Settings page JavaScript
-document.addEventListener('DOMContentLoaded', async function() {
-    const authResult = await authManager.initPageAuth(true);
+document.addEventListener('DOMContentLoaded', async () => {
+    const token = localStorage.getItem('p2v_token');
     
-    if (!authResult.authenticated) {
-        // Will be redirected by initPageAuth
+    // Ensure this URL is exactly what's in your @router.get("/me")
+    const API_USER_URL = 'http://127.0.0.1:8000/api/me'; 
+
+    const loadingState = document.getElementById('loadingState');
+    const authState = document.getElementById('authenticatedState');
+    const errorState = document.getElementById('errorState');
+
+    if (!token) {
+        window.location.href = 'login.html';
         return;
     }
 
-    // User is authenticated, load settings
-    await loadUserSettings(authResult.user);
-});
-
-// Load user settings and display
-async function loadUserSettings(user) {
-    const loadingState = document.getElementById('loadingState');
-    const unauthenticatedState = document.getElementById('unauthenticatedState');
-    const authenticatedState = document.getElementById('authenticatedState');
-    
     try {
-        // Hide loading, show authenticated state
-        loadingState.style.display = 'none';
-        authenticatedState.style.display = 'block';
-        
-        // Render user profile
-        renderUserProfile(user);
-        
-        // Update navigation profile
-        updateNavProfile(user);
-        
-        // Load user statistics
-        await loadUserStats(user.id);
-        
-    } catch (error) {
-        console.error('Error loading settings:', error);
-        loadingState.style.display = 'none';
-        unauthenticatedState.style.display = 'block';
-    }
-}
-
-// Render user profile section
-function renderUserProfile(user) {
-    const authenticatedState = document.getElementById('authenticatedState');
-    
-    authenticatedState.innerHTML = `
-        <div class="user-profile-section">
-            ${user.profile_url ? 
-                `<img src="${user.profile_url}" alt="Profile" class="profile-image">` : 
-                `<div class="profile-image" style="display: flex; align-items: center; justify-content: center; background-color: #262626; font-size: 32px;">
-                    ${user.first_name ? user.first_name.charAt(0).toUpperCase() : '👤'}
-                </div>`
+        const response = await fetch(API_USER_URL, {
+            method: 'GET',
+            headers: {
+                'Authorization': `Bearer ${token}`,
+                'Content-Type': 'application/json'
             }
-            <h2 class="user-name">${user.first_name || ''} ${user.last_name || ''}</h2>
-            <p class="user-email">${user.email}</p>
-            <span class="user-role">${user.role}</span>
-        </div>
-
-        <div class="settings-actions">
-            <a href="index.html" class="action-button primary">Go to Home</a>
-            <a href="index.html" class="action-button secondary">Explore Places</a>
-            <button onclick="logout()" class="action-button danger">Sign Out</button>
-        </div>
-    `;
-    
-    // Set joined date
-    const joinedDate = new Date(user.created_at);
-    document.getElementById('joinedDate').textContent = joinedDate.getFullYear();
-}
-
-// Update navigation profile
-function updateNavProfile(user) {
-    const userProfile = document.getElementById('userProfile');
-    if (user.profile_url) {
-        userProfile.innerHTML = `<img src="${user.profile_url}" alt="Profile">`;
-    } else {
-        userProfile.textContent = user.first_name ? user.first_name.charAt(0).toUpperCase() : '👤';
-    }
-}
-
-// Load user statistics using auth manager
-async function loadUserStats(userId) {
-    try {
-        // Try to get user-specific data
-        const response = await authManager.apiRequest(`/get/user/${userId}`);
+        });
 
         if (response.ok) {
             const userData = await response.json();
-            console.log('User data:', userData);
-        }
-        
-        // Get places count from all places endpoint and filter by user_id
-        const placesResponse = await fetch('http://127.0.0.1:8000/api/all/place');
-        if (placesResponse.ok) {
-            const allPlaces = await placesResponse.json();
-            const userPlaces = allPlaces.filter(place => place.user_id === userId);
-            document.getElementById('placesCount').textContent = userPlaces.length;
-        }
-        
-    } catch (error) {
-        console.error('Error loading user stats:', error);
-        // Keep default values
-    }
-}
+            console.log("User data received:", userData);
 
-// Logout function using auth manager
+            // 1. Map your Pydantic model to the HTML IDs
+            // Combining first_name and last_name since your model has them separate
+            const fullName = `${userData.first_name || ''} ${userData.last_name || ''}`.trim() || 'P2V Explorer';
+            
+            document.getElementById('userName').innerText = fullName;
+            document.getElementById('userEmail').innerText = userData.email;
+
+            // 2. Handle Profile Picture (if you have an <img> tag for it)
+            const profileImg = document.querySelector('.bg-primary i'); // Target the icon
+            if (userData.profile_url && profileImg) {
+                // Replace the icon with an actual image if profile_url exists
+                const avatarContainer = profileImg.parentElement;
+                avatarContainer.innerHTML = `<img src="${userData.profile_url}" class="rounded-circle w-100 h-100" style="object-fit: cover;">`;
+            }
+
+            // 3. Toggle Visibility
+            loadingState.style.display = 'none';
+            authState.style.display = 'block';
+
+        } else {
+            // If server returns 401 (Unauthorized), the token is likely dead
+            console.error("Session invalid. Status:", response.status);
+            throw new Error('Unauthorized');
+        }
+    } catch (error) {
+        console.error("Auth Error:", error);
+        loadingState.style.display = 'none';
+        errorState.style.display = 'block';
+    }
+});
+
 function logout() {
-    authManager.logout();
+    localStorage.removeItem('p2v_token');
+    window.location.href = 'index.html';
 }

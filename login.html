@@ -1,29 +1,159 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sign In - P2V</title>
-    <link rel="stylesheet" href="css/main.css">
-    <link rel="stylesheet" href="css/login.css">
+<!doctype html>
+<html lang="en" data-bs-theme="dark">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Login | P2V</title>
+
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"
+    />
+    <link rel="stylesheet" href="css/index.css" />
+    <link rel="stylesheet" href="css/auth.css" />
     <script src="https://accounts.google.com/gsi/client" async defer></script>
-</head>
-<body>
-    <div class="login-container">
-        <h1 class="login-title">Welcome to P2V</h1>
-        <h3 class="login-subtitle">Please sign in to continue</h3>
-        
-        <div class="error-message" id="error-message"></div>
-        <div class="loading" id="loading">Signing you in...</div>
-        
-        <div id="google-signin-btn"></div>
-        
-        <p class="terms-text">
-            By signing in, you agree to our terms of service.
-        </p>
+  </head>
+  <body>
+    <nav class="navbar navbar-expand-lg navbar-pro sticky-top">
+      <div class="container">
+        <a class="navbar-brand brand" href="index.html">P2V</a>
+        <button
+          class="navbar-toggler border-0"
+          type="button"
+          data-bs-toggle="collapse"
+          data-bs-target="#navbarNav"
+        >
+          <i class="fa-solid fa-bars"></i>
+        </button>
+        <div
+          class="collapse navbar-collapse justify-content-end"
+          id="navbarNav"
+        >
+          <ul class="navbar-nav nav-pro">
+            <li class="nav-item">
+              <a class="nav-link" href="index.html#home">Home</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="index.html#places">Places</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+
+    <main class="auth-main">
+      <div class="container">
+        <div class="row justify-content-center">
+          <div class="col-12 col-sm-10 col-md-8 col-lg-6 col-xl-5">
+            <section class="state-card auth-card">
+              <div class="text-center mb-4">
+                <h1 class="auth-title">Welcome <span>Back</span></h1>
+                <p class="auth-sub">
+                  Sign in to share your favorite places with explorers.
+                </p>
+              </div>
+
+              <div
+                id="g_id_onload"
+                data-client_id="788471062927-m9k1jhqtp4j1gr2be8fg4bga08mi4knd.apps.googleusercontent.com"
+                data-context="signin"
+                data-ux_mode="popup"
+                data-callback="handleCredentialResponse"
+                data-auto_prompt="false"
+              ></div>
+              <div class="d-flex justify-content-center mb-4">
+                <div
+                  class="g_id_signin"
+                  data-type="standard"
+                  data-shape="rectangular"
+                  data-theme="filled_blue"
+                  data-text="signin_with"
+                  data-size="large"
+                  data-logo_alignment="left"
+                  data-width="100%"
+                ></div>
+              </div>
+
+              <!-- <div class="auth-divider">
+                <span>or use email</span>
+              </div> -->
+
+              <form id="loginForm">
+                <div class="mb-3">
+                  <label class="form-label auth-label">Email Address</label>
+                  <input
+                    type="email"
+                    class="form-control form-control-lg auth-input"
+                    placeholder="name@example.com"
+                    required
+                  />
+                </div>
+
+                <div class="mb-4">
+                  <label class="form-label auth-label">Password</label>
+                  <div class="input-group">
+                    <input
+                      type="password"
+                      id="passwordInput"
+                      class="form-control form-control-lg auth-input auth-input-password"
+                      placeholder="••••••••"
+                      required
+                    />
+                    <span class="input-group-text auth-addon" id="togglePassword">
+                      <i class="fa-regular fa-eye-slash" id="eyeIcon"></i>
+                    </span>
+                  </div>
+                </div>
+
+                <button type="submit" class="cta-primary w-100 border-0">
+                  Sign In
+                </button>
+              </form>
+
+              <div class="text-center mt-4">
+                <a href="index.html" class="auth-back">
+                  <i class="fa-solid fa-arrow-left me-1"></i>
+                  Back to home
+                </a>
+              </div>
+            </section>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <footer class="footer-pro">
+      <div class="container">
+        <div class="footer-bottom justify-content-center">
+          <span>© 2026 P2V</span>
+        </div>
+      </div>
+    </footer>
+
+    <div class="toast-container position-fixed bottom-0 end-0 p-3">
+      <div
+        id="statusToast"
+        class="toast align-items-center text-white bg-primary border-0"
+        role="alert"
+        aria-live="assertive"
+        aria-atomic="true"
+      >
+        <div class="d-flex">
+          <div class="toast-body" id="toastMessage">Processing...</div>
+          <button
+            type="button"
+            class="btn-close btn-close-white me-2 m-auto"
+            data-bs-dismiss="toast"
+          ></button>
+        </div>
+      </div>
     </div>
 
-    <script src="js/auth.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
     <script src="js/login.js"></script>
-</body>
+  </body>
 </html>

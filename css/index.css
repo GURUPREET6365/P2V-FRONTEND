@@ -1,230 +1,268 @@
-/* Index page specific styles */
+/* ----------- BASE ----------- */
 
-/* Hero Section */
-.hero-section {
-    text-align: center;
-    padding: 40px 0;
-    margin-bottom: 40px;
+body {
+  background: #0b0f14;
+  color: #e5e7eb;
+  font-family: Inter, system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ----------- NAVBAR ----------- */
+
+.navbar-pro {
+  background: rgba(11, 15, 20, 0.85);
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.nav-pro {
+  gap: 10px;
+}
+
+.nav-pro .nav-link {
+  color: #9ca3af;
+  padding: 8px 16px;
+  border-radius: 6px;
+  position: relative;
+  transition: 0.25s;
+}
+
+.nav-pro .nav-link::after {
+  content: "";
+  position: absolute;
+  bottom: -4px;
+  left: 50%;
+  width: 0%;
+  height: 2px;
+  background: #60a5fa;
+  transition: 0.25s;
+  transform: translateX(-50%);
+}
+
+.nav-pro .nav-link:hover {
+  color: #fff;
+}
+
+.nav-pro .nav-link:hover::after {
+  width: 60%;
+}
+
+.nav-pro .nav-link.active {
+  color: #fff;
+}
+
+.profile-icon {
+  margin-left: 20px;
+  height: 36px;
+  width: 36px;
+  background: rgba(255, 255, 255, 0.05);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 8px;
+  transition: 0.25s;
+}
+
+.profile-icon:hover {
+  background: rgba(255, 255, 255, 0.1);
+  transform: translateY(-2px);
+}
+
+/* ----------- HERO ----------- */
+
+.hero {
+  padding: 100px 20px 70px;
 }
 
 .hero-title {
-    font-size: 32px;
-    font-weight: 700;
-    margin-bottom: 16px;
+  font-size: clamp(2rem, 4vw, 3rem);
+  font-weight: 600;
+  letter-spacing: -0.02em;
 }
 
-.hero-subtitle {
-    font-size: 18px;
-    color: #a8a8a8;
-    margin-bottom: 32px;
+.hero-title span {
+  color: #60a5fa;
 }
 
-/* Places Grid */
-.places-section {
-    margin-bottom: 40px;
+.hero-sub {
+  color: #9ca3af;
+  margin-top: 12px;
+  margin-bottom: 28px;
 }
 
-.section-title {
-    font-size: 24px;
-    font-weight: 600;
-    margin-bottom: 24px;
-    text-align: center;
+/* ----------- CTA ----------- */
+
+.cta-primary {
+  background: #2563eb;
+  padding: 12px 26px;
+  border-radius: 8px;
+  font-weight: 500;
+  text-decoration: none;
+  color: white;
+  transition: all 0.25s ease;
+  display: inline-block;
 }
 
-.places-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-    gap: 24px;
-    padding: 0;
+.cta-primary:hover {
+  background: #1d4ed8;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(37, 99, 235, 0.3);
 }
 
-/* Place Cards - Unified for both authenticated and anonymous users */
-.place-card-container {
-    background-color: #000;
-    border: 1px solid #262626;
-    border-radius: 12px;
-    overflow: hidden;
+/* ----------- SECTION ----------- */
+
+.section-block {
+  padding-top: 40px;
 }
+
+.section-head h2 {
+  font-size: 0.9rem;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: #9ca3af;
+  margin-bottom: 20px;
+}
+
+/* ----------- STATES ----------- */
+
+.state-card {
+  background: #11161c;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  padding: 40px;
+  border-radius: 12px;
+}
+
+.state-card p {
+  margin-top: 10px;
+  color: #9ca3af;
+}
+
+.state-card.error {
+  border-color: rgba(239, 68, 68, 0.3);
+}
+
+/* ----------- FOOTER ----------- */
+
+.footer-pro {
+  background: #0b0f14;
+  border-top: 1px solid rgba(255, 255, 255, 0.05);
+  padding: 60px 0 30px;
+  margin-top: 60px;
+}
+
+.footer-pro h6 {
+  font-weight: 600;
+  margin-bottom: 12px;
+}
+
+.footer-pro ul {
+  list-style: none;
+  padding: 0;
+}
+
+.footer-pro li {
+  margin-bottom: 6px;
+}
+
+.footer-pro a {
+  color: #9ca3af;
+  text-decoration: none;
+  font-size: 0.85rem;
+}
+
+.footer-pro a:hover {
+  color: #fff;
+}
+
+.footer-bottom {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 20px;
+  font-size: 0.8rem;
+  color: #6b7280;
+}
+
+.socials i {
+  margin-left: 12px;
+  cursor: pointer;
+  transition: 0.25s;
+}
+
+.socials i:hover {
+  color: #60a5fa;
+}
+
+/* ----------- MICRO ANIMATIONS ----------- */
+
+.nav-link,
+.profile-icon,
+.cta-primary,
+.state-card {
+  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* PLACES  */
 
 .place-card {
-    text-decoration: none;
-    color: inherit;
-    display: block;
+  background: #11161c;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  border-radius: 14px;
+  padding: 20px;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  transition: 0.25s;
 }
 
-.place-card-container:hover {
-    border-color: #0095f6;
+.place-card:hover {
+  transform: translateY(-4px);
+  border-color: #3b82f6;
+  box-shadow: 0 10px 25px rgba(59, 130, 246, 0.15);
 }
 
-/* For authenticated users - clickable cards */
-a.place-card {
-    cursor: pointer;
-    transition: border-color 0.2s ease;
+.place-top {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 12px;
 }
 
-/* For anonymous users - non-clickable cards */
-div.place-card {
-    cursor: default;
+.pin {
+  font-size: 0.75rem;
+  color: #60a5fa;
 }
 
-.card-header {
-    padding: 16px;
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    border-bottom: 1px solid #262626;
+.date {
+  font-size: 0.7rem;
+  color: #6b7280;
 }
 
-.location-icon {
-    width: 32px;
-    height: 32px;
-    background-color: #262626;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 16px;
+.place-title {
+  font-weight: 600;
+  margin-bottom: 8px;
 }
 
-.card-location {
-    flex: 1;
-    min-width: 0; /* Allow text truncation */
+.place-desc {
+  color: #9ca3af;
+  font-size: 0.9rem;
+  margin-bottom: auto;
 }
 
-.place-name {
-    font-weight: 600;
-    font-size: 16px;
-    margin-bottom: 2px;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
+.place-footer {
+  margin-top: 15px;
+  font-size: 0.85rem;
+  color: #9ca3af;
+  display: flex;
+  gap: 6px;
+  align-items: center;
 }
 
-.place-address {
-    color: #a8a8a8;
-    font-size: 14px;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-}
-
-.card-content {
-    padding: 16px;
-}
-
-.place-description {
-    color: #fff;
-    font-size: 14px;
-    line-height: 1.5;
-    margin-bottom: 12px;
-    display: -webkit-box;
-    -webkit-line-clamp: 3;
-    -webkit-box-orient: vertical;
-    overflow: hidden;
-    text-overflow: ellipsis;
-}
-
-.card-footer {
-    padding: 0 16px 16px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    flex-wrap: wrap;
-    gap: 8px;
-}
-
-.place-info {
-    display: flex;
-    align-items: center;
-}
-
-.place-pincode {
-    background-color: #262626;
-    color: #0095f6;
-    padding: 6px 12px;
-    border-radius: 16px;
-    font-size: 12px;
-    font-weight: 600;
-    display: flex;
-    align-items: center;
-    gap: 4px;
-}
-
-.place-actions {
-    display: flex;
-    gap: 8px;
-    align-items: center;
-}
-
-.action-btn {
-    background: none;
-    border: none;
-    color: #a8a8a8;
-    cursor: pointer;
-    padding: 6px;
-    border-radius: 4px;
-    font-size: 16px;
-    display: flex;
-    align-items: center;
-    gap: 4px;
-    transition: color 0.2s ease;
-}
-
-.action-btn:hover {
-    color: #fff;
-}
-
-.action-btn.liked {
-    color: #ed4956;
-}
-
-.action-btn.disliked {
-    color: #0095f6;
-}
-
-.action-btn span {
-    font-size: 12px;
-    font-weight: 500;
-}
-
-/* Mobile Responsive */
-@media (max-width: 768px) {
-    .hero-title {
-        font-size: 28px;
-    }
-
-    .hero-subtitle {
-        font-size: 16px;
-    }
-
-    .places-grid {
-        grid-template-columns: 1fr;
-        gap: 16px;
-    }
-}
-
-@media (max-width: 480px) {
-    .hero-section {
-        padding: 24px 0;
-    }
-
-    .hero-title {
-        font-size: 24px;
-    }
-
-    .btn-primary {
-        padding: 10px 24px;
-        font-size: 14px;
-    }
-
-    .card-footer {
-        flex-direction: column;
-        align-items: flex-start;
-        gap: 12px;
-    }
-
-    .place-actions {
-        width: 100%;
-        justify-content: space-around;
-    }
+.place-locked {
+  margin-top: 20px;
+  background: #0b0f14;
+  padding: 10px;
+  border-radius: 8px;
+  font-size: 0.8rem;
+  text-align: center;
+  color: #6b7280;
 }
