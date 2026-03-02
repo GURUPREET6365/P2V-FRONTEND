@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="en" data-bs-theme="dark">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>P2V - Places</title>
+
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"
+    />
+
+    <link rel="stylesheet" href="css/index.css" />
+  </head>
+
+  <body data-page="places">
+    <div id="appNav"></div>
+
+    <header class="hero hero-sm">
+      <div class="container text-center">
+        <h1 class="hero-title">Explore <span>Featured Places</span></h1>
+        <p class="hero-sub">
+          Discover community-submitted places with practical details.
+        </p>
+      </div>
+    </header>
+
+    <section class="container section-block" id="places">
+      <div class="section-head">
+        <h2>Places Feed</h2>
+      </div>
+
+      <div id="loadingState" class="state-card text-center">
+        <div class="spinner-border text-primary"></div>
+        <p>Searching for places...</p>
+      </div>
+
+      <div
+        id="errorState"
+        class="state-card error text-center"
+        style="display: none"
+      >
+        <i class="fa-solid fa-circle-exclamation"></i>
+        <h6>Connection Error</h6>
+        <p>Unable to reach server</p>
+      </div>
+
+      <div class="row g-4" id="placesGrid" style="display: none"></div>
+    </section>
+
+    <div id="appFooter"></div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="js/layout.js"></script>
+    <script src="js/auth.js"></script>
+    <script src="js/places.js"></script>
+  </body>
+</html>

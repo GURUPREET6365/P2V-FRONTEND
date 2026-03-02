@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>P2V - Discover Amazing Places</title>
+    <title>P2V - About</title>
 
     <link
       href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
@@ -17,129 +17,83 @@
     <link rel="stylesheet" href="css/index.css" />
   </head>
 
-  <body>
-    <!-- NAVBAR -->
-    <nav class="navbar navbar-expand-lg navbar-pro sticky-top">
-      <div class="container">
-        <a class="navbar-brand brand" href="#">P2V</a>
+  <body data-page="home">
+    <div id="appNav"></div>
 
-        <button
-          class="navbar-toggler border-0"
-          type="button"
-          data-bs-toggle="collapse"
-          data-bs-target="#navbarNav"
-        >
-          <i class="fa-solid fa-bars"></i>
-        </button>
-
-        <div
-          class="collapse navbar-collapse justify-content-end"
-          id="navbarNav"
-        >
-          <ul class="navbar-nav nav-pro">
-            <li class="nav-item">
-              <a class="nav-link active" href="#home">Home</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="#places">Places</a>
-            </li>
-          </ul>
-
-          <a href="settings.html" class="profile-icon d-none" id="userProfile">
-            <i class="fa-regular fa-user"></i>
-          </a>
-        </div>
-      </div>
-    </nav>
-
-    <!-- HERO -->
     <header class="hero" id="home">
       <div class="container text-center">
-        <h1 class="hero-title">Find your next <span>great place</span></h1>
+        <h1 class="hero-title">Hey, I am <span>building P2V</span></h1>
 
         <p class="hero-sub">
-          Discover curated locations shared by real explorers.
+          A focused platform where I share travel-worthy places and practical
+          details that help you decide quickly.
         </p>
 
-        <a href="login.html" id="ctaButton" class="cta-primary">
+        <a href="login.html" id="ctaButton" class="cta-primary me-2">
           Get Started
+        </a>
+        <a href="places.html" class="cta-primary cta-secondary">
+          View Places
         </a>
       </div>
     </header>
 
-    <!-- PLACES -->
-    <section class="container section-block" id="places">
+    <section class="container section-block" id="about">
       <div class="section-head">
-        <h2>Featured Places</h2>
+        <h2>About Me</h2>
       </div>
 
-      <div id="loadingState" class="state-card text-center">
-        <div class="spinner-border text-primary"></div>
-        <p>Searching for places...</p>
+      <div class="state-card about-card">
+        <h3 class="mb-3">Why I made this</h3>
+        <p class="about-copy mb-0">
+          I built P2V to reduce noise while planning trips. Instead of scrolling
+          through random posts, you get selected places with clear summaries,
+          pin code, address context, and dates in one clean view.
+        </p>
       </div>
-
-      <div
-        id="errorState"
-        class="state-card error text-center"
-        style="display: none"
-      >
-        <i class="fa-solid fa-circle-exclamation"></i>
-        <h6>Connection Error</h6>
-        <p>Unable to reach server</p>
-      </div>
-
-      <div class="row g-4" id="placesGrid" style="display: none"></div>
     </section>
 
-    <footer class="footer-pro">
-      <div class="container">
-        <div class="row g-4">
-          <div class="col-md-4">
-            <h6>P2V</h6>
-            <p>
-              Discover and share real-world locations curated by community
-              explorers.
-            </p>
-          </div>
+    <section class="container section-block">
+      <div class="section-head">
+        <h2>What You Will Get Here</h2>
+      </div>
 
-          <div class="col-md-2">
-            <h6>Product</h6>
-            <ul>
-              <li><a href="#">Explore</a></li>
-              <li><a href="#">Add Place</a></li>
-              <li><a href="#">Community</a></li>
-            </ul>
-          </div>
-
-          <div class="col-md-2">
-            <h6>Company</h6>
-            <ul>
-              <li><a href="#">About</a></li>
-              <li><a href="#">Privacy</a></li>
-              <li><a href="#">Terms</a></li>
-            </ul>
-          </div>
-
-          <div class="col-md-4">
-            <h6>Stay Updated</h6>
-            <p class="small-muted">New places added every day.</p>
+      <div class="row g-4">
+        <div class="col-12 col-md-6 col-xl-3">
+          <div class="state-card benefit-card">
+            <i class="fa-solid fa-map-location-dot"></i>
+            <h6>Curated Places</h6>
+            <p>Only practical, visit-worthy place entries.</p>
           </div>
         </div>
-
-        <hr />
-
-        <div class="footer-bottom">
-          <span>© 2026 P2V</span>
-          <div class="socials">
-            <i class="fa-brands fa-github"></i>
-            <i class="fa-brands fa-twitter"></i>
-            <i class="fa-brands fa-linkedin"></i>
+        <div class="col-12 col-md-6 col-xl-3">
+          <div class="state-card benefit-card">
+            <i class="fa-solid fa-location-dot"></i>
+            <h6>Accurate Location Info</h6>
+            <p>Pin code and address context for faster planning.</p>
+          </div>
+        </div>
+        <div class="col-12 col-md-6 col-xl-3">
+          <div class="state-card benefit-card">
+            <i class="fa-solid fa-user-shield"></i>
+            <h6>Member Access</h6>
+            <p>Logged-in users can see full place details.</p>
+          </div>
+        </div>
+        <div class="col-12 col-md-6 col-xl-3">
+          <div class="state-card benefit-card">
+            <i class="fa-solid fa-bolt"></i>
+            <h6>Simple Experience</h6>
+            <p>Quick load, clean layout, and focused navigation.</p>
           </div>
         </div>
       </div>
-    </footer>
+    </section>
+
+    <div id="appFooter"></div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="js/layout.js"></script>
     <script src="js/auth.js"></script>
     <script src="js/index.js"></script>
   </body>
