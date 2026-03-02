@@ -95,6 +95,19 @@ body {
   gap: 10px;
 }
 
+.nav-auth-wrap {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-left: 16px;
+}
+
+.nav-login-btn {
+  padding: 8px 14px;
+  font-size: 0.85rem;
+  line-height: 1.2;
+}
+
 /* ----------- HERO ----------- */
 
 .hero {
@@ -306,6 +319,17 @@ body {
     margin-top: 8px;
   }
 
+  .nav-auth-wrap {
+    margin-left: 0;
+    width: 100%;
+    margin-top: 10px;
+  }
+
+  .nav-login-btn {
+    width: 100%;
+    text-align: center;
+  }
+
   .footer-pro {
     padding: 44px 0 24px;
   }
@@ -460,19 +484,58 @@ body {
   line-height: 1.5;
 }
 
-.place-idline {
+.place-actions {
   margin-top: 2px;
-  font-size: 0.78rem;
-  color: #9ca3af;
   display: flex;
-  justify-content: space-between;
-  gap: 12px;
+  gap: 10px;
   padding-top: 10px;
   border-top: 1px solid rgba(255, 255, 255, 0.08);
 }
 
-.place-idline strong {
-  color: #d1d5db;
+.vote-btn {
+  flex: 1;
+  background: rgba(15, 23, 42, 0.7);
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  border-radius: 10px;
+  color: #cbd5e1;
+  font-size: 0.82rem;
+  font-weight: 600;
+  padding: 8px 10px;
+  transition: all 0.2s ease;
+}
+
+.vote-btn i {
+  margin-right: 6px;
+}
+
+.vote-btn:hover {
+  color: #fff;
+  border-color: rgba(148, 163, 184, 0.45);
+}
+
+.vote-btn:disabled {
+  opacity: 0.7;
+  cursor: wait;
+}
+
+.vote-btn.like.active {
+  background: rgba(34, 197, 94, 0.2);
+  border-color: rgba(34, 197, 94, 0.5);
+  color: #86efac;
+}
+
+.vote-btn.dislike.active {
+  background: rgba(239, 68, 68, 0.2);
+  border-color: rgba(239, 68, 68, 0.5);
+  color: #fca5a5;
+}
+
+.place-actions-note {
+  margin-top: 2px;
+  font-size: 0.78rem;
+  color: #9ca3af;
+  padding-top: 10px;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
 }
 
 .place-locked {
@@ -494,7 +557,7 @@ body {
     padding: 16px;
   }
 
-  .place-idline {
+  .place-actions {
     flex-direction: column;
     gap: 6px;
   }

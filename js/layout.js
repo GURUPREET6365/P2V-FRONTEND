@@ -34,9 +34,14 @@ document.addEventListener("DOMContentLoaded", () => {
               </li>
             </ul>
 
-            <a href="settings.html" class="profile-icon d-none" id="userProfile">
-              <i class="fa-regular fa-user"></i>
-            </a>
+            <div class="nav-auth-wrap">
+              <a href="login.html" class="cta-primary nav-login-btn d-none" id="navLoginBtn">
+                Login
+              </a>
+              <a href="settings.html" class="profile-icon d-none" id="userProfile">
+                <i class="fa-regular fa-user"></i>
+              </a>
+            </div>
           </div>
         </div>
       </nav>
@@ -103,4 +108,37 @@ document.addEventListener("DOMContentLoaded", () => {
       </footer>
     `;
   }
+
+  async function syncNavbarAuthState() {
+    const loginBtn = document.getElementById("navLoginBtn");
+    const profileBtn = document.getElementById("userProfile");
+    if (!loginBtn || !profileBtn) return;
+
+    const token = localStorage.getItem("p2v_token");
+    if (!token) {
+      loginBtn.classList.remove("d-none");
+      profileBtn.classList.add("d-none");
+      return;
+    }
+
+    try {
+      const response = await fetch("http://127.0.0.1:8000/api/me", {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+
+      if (response.ok) {
+        loginBtn.classList.add("d-none");
+        profileBtn.classList.remove("d-none");
+      } else {
+        localStorage.removeItem("p2v_token");
+        loginBtn.classList.remove("d-none");
+        profileBtn.classList.add("d-none");
+      }
+    } catch (error) {
+      loginBtn.classList.remove("d-none");
+      profileBtn.classList.add("d-none");
+    }
+  }
+
+  syncNavbarAuthState();
 });
