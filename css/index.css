@@ -472,6 +472,11 @@ body {
   margin: 0;
   line-height: 1.65;
   flex-grow: 1;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .place-footer {
@@ -482,6 +487,15 @@ body {
   gap: 8px;
   align-items: center;
   line-height: 1.5;
+  min-width: 0;
+}
+
+.place-footer span {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  flex: 1;
 }
 
 .place-actions {

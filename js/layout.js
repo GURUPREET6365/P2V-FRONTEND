@@ -30,7 +30,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 <a class="nav-link ${page === "places" ? "active" : ""}" href="places.html">Places</a>
               </li>
               <li class="nav-item">
-                <a class="nav-link ${page === "about" ? "active" : ""}" href="index.html#about">About</a>
+                <a class="nav-link ${page === "about" ? "active" : ""}" href="about.html">About</a>
               </li>
             </ul>
 
@@ -73,9 +73,9 @@ document.addEventListener("DOMContentLoaded", () => {
             <div class="col-6 col-md-2">
               <h6>Support</h6>
               <ul>
-                <li><a href="#">Help Center</a></li>
-                <li><a href="#">Privacy</a></li>
-                <li><a href="#">Terms</a></li>
+                <li><a href="about.html">About Us</a></li>
+                <li><a href="about.html#privacy-policy">Privacy</a></li>
+                <li><a href="about.html#terms-and-conditions">Terms</a></li>
               </ul>
             </div>
 
@@ -100,8 +100,8 @@ document.addEventListener("DOMContentLoaded", () => {
                 class="fa-brands fa-github"
                 aria-label="GitHub"
               ></a>
-              <a href="#" class="fa-brands fa-twitter" aria-label="Twitter"></a>
-              <a href="#" class="fa-brands fa-linkedin" aria-label="LinkedIn"></a>
+              <a href="https://www.youtube.com/@TheHacker-x3u" target="_blank" class="fa-brands fa-youtube" aria-label="YouTube"></a>
+              <a href="https://www.linkedin.com/in/gurupreet-kumar-467ab4375/" target="_blank" class="fa-brands fa-linkedin" aria-label="LinkedIn"></a>
             </div>
           </div>
         </div>
