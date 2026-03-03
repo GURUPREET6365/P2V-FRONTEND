@@ -1,0 +1,66 @@
+.place-details-card {
+  background: linear-gradient(165deg, #11161c, #0f141b);
+}
+
+.place-detail-title {
+  font-size: clamp(1.5rem, 3vw, 2.1rem);
+  letter-spacing: -0.02em;
+}
+
+.details-actions {
+  max-width: 420px;
+}
+
+.notes-shell {
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  padding-top: 16px;
+}
+
+.notes-title {
+  margin-bottom: 14px;
+  color: #e2e8f0;
+}
+
+.notes-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.note-item {
+  background: rgba(15, 23, 42, 0.55);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 10px;
+  padding: 12px 14px;
+}
+
+.note-label {
+  display: block;
+  font-weight: 700;
+  color: #93c5fd;
+  margin-bottom: 6px;
+  line-height: 1.3;
+}
+
+.note-value {
+  color: #e2e8f0;
+  line-height: 1.75;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+
+@media (max-width: 767.98px) {
+  .place-details-card {
+    padding: 24px;
+  }
+}
+
+@media (max-width: 575.98px) {
+  .place-details-card {
+    padding: 20px;
+  }
+
+  .note-item {
+    padding: 12px;
+  }
+}

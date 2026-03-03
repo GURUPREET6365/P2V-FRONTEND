@@ -4,27 +4,21 @@ document.addEventListener("DOMContentLoaded", async () => {
   const loadingState = document.getElementById("loadingState");
   const errorState = document.getElementById("errorState");
   const voteState = {};
+  const auth = window.AuthManager;
   let currentUserId = null;
 
   async function initAuth() {
-    const token = localStorage.getItem("p2v_token");
-    if (!token) {
+    if (!auth?.hasValidSession()) {
       updateUI(null);
       return null;
     }
 
     try {
-      const response = await fetch("http://127.0.0.1:8000/api/me", {
-        headers: { Authorization: `Bearer ${token}` },
-      });
-
-      if (!response.ok) {
-        localStorage.removeItem("p2v_token");
+      const userData = await auth.verifySession();
+      if (!userData) {
         updateUI(null);
         return null;
       }
-
-      const userData = await response.json();
       currentUserId = userData.id ?? userData.user_id ?? null;
       updateUI(userData);
       return userData;
@@ -43,10 +37,8 @@ document.addEventListener("DOMContentLoaded", async () => {
 
   async function fetchPlaces() {
     try {
-      const token = localStorage.getItem("p2v_token");
-      const headers = token ? { Authorization: `Bearer ${token}` } : {};
       const response = await fetch("http://127.0.0.1:8000/api/all/place", {
-        headers,
+        headers: auth?.getAuthHeaders?.() || {},
       });
       if (!response.ok) throw new Error("API Error");
 
@@ -90,10 +82,23 @@ document.addEventListener("DOMContentLoaded", async () => {
         const placeId = getPlaceId(place);
         const placeKey = getPlaceKey(place);
         const currentVote = voteState[placeKey] ?? voteStateFromVoted(place.voted);
+        const canOpenDetails =
+          Boolean(currentUserId) &&
+          placeId !== null &&
+          placeId !== undefined &&
+          placeId !== "";
+        const cardClass = canOpenDetails
+          ? "place-card reel-card place-card-clickable"
+          : "place-card reel-card";
+        const cardAttributes = canOpenDetails
+          ? `data-place-id="${escapeHtml(placeId)}" role="link" tabindex="0" aria-label="View details for ${escapeHtml(
+              place.place_name || "place",
+            )}"`
+          : "";
 
         return `
           <div class="col-12 col-md-6 col-xl-4">
-            <article class="place-card reel-card">
+            <article class="${cardClass}" ${cardAttributes}>
               <div class="place-cover">
                 <div class="place-cover-overlay">
                   <span class="place-chip">#${escapeHtml(place.pincode)}</span>
@@ -115,6 +120,17 @@ document.addEventListener("DOMContentLoaded", async () => {
                   <i class="fa-solid fa-location-dot"></i>
                   <span>${escapeHtml(place.place_address)}</span>
                 </div>
+
+                ${
+                  canOpenDetails
+                    ? `
+                      <div class="place-open-hint">
+                        <i class="fa-solid fa-arrow-up-right-from-square"></i>
+                        Open full details
+                      </div>
+                    `
+                    : ""
+                }
 
                 ${
                   currentUserId
@@ -197,7 +213,7 @@ document.addEventListener("DOMContentLoaded", async () => {
   }
 
   async function submitVote(placeId, vote) {
-    const token = localStorage.getItem("p2v_token");
+    const token = auth?.getToken?.();
     if (!token) {
       throw new Error("Missing auth token");
     }
@@ -215,6 +231,9 @@ document.addEventListener("DOMContentLoaded", async () => {
     );
 
     if (!response.ok) {
+      if (response.status === 401 || response.status === 403) {
+        auth?.clearSession?.();
+      }
       throw new Error(`Vote request failed (${response.status})`);
     }
   }
@@ -231,57 +250,82 @@ document.addEventListener("DOMContentLoaded", async () => {
   }
 
   placesGrid.addEventListener("click", async (event) => {
-    const target = event.target.closest(".vote-btn");
-    if (!target || !currentUserId) return;
+    const voteTarget = event.target.closest(".vote-btn");
+    if (voteTarget && currentUserId) {
+      const placeId = voteTarget.dataset.placeId;
+      const placeKey = voteTarget.dataset.placeKey;
+      const clickedType = voteTarget.dataset.voteType;
+      if (
+        !placeId ||
+        placeId === "null" ||
+        placeId === "undefined" ||
+        !placeKey ||
+        !clickedType
+      ) {
+        console.warn(
+          "Vote skipped: invalid place_id. Ensure /api/all/place returns id/place_id for each place.",
+        );
+        return;
+      }
 
-    const placeId = target.dataset.placeId;
-    const placeKey = target.dataset.placeKey;
-    const clickedType = target.dataset.voteType;
-    if (
-      !placeId ||
-      placeId === "null" ||
-      placeId === "undefined" ||
-      !placeKey ||
-      !clickedType
-    ) {
-      console.warn(
-        "Vote skipped: invalid place_id. Ensure /api/all/place returns id/place_id for each place.",
-      );
+      const currentState = voteState[placeKey] ?? null;
+      const newState = nextVoteState(currentState, clickedType);
+      const payloadVote = votePayloadFromState(newState);
+
+      const actionWrap = voteTarget.closest(".place-actions");
+      const actionButtons = actionWrap
+        ? Array.from(actionWrap.querySelectorAll(".vote-btn"))
+        : [voteTarget];
+
+      actionButtons.forEach((btn) => {
+        btn.disabled = true;
+      });
+
+      try {
+        await submitVote(placeId, payloadVote);
+        voteState[placeKey] = newState;
+
+        if (actionWrap) {
+          actionButtons.forEach((btn) => btn.classList.remove("active"));
+          if (newState) {
+            const selectedBtn = actionWrap.querySelector(
+              `.vote-btn[data-vote-type="${newState}"]`,
+            );
+            if (selectedBtn) selectedBtn.classList.add("active");
+          }
+        }
+      } catch (error) {
+        console.error("Vote error:", error);
+      } finally {
+        actionButtons.forEach((btn) => {
+          btn.disabled = false;
+        });
+      }
       return;
     }
 
-    const currentState = voteState[placeKey] ?? null;
-    const newState = nextVoteState(currentState, clickedType);
-    const payloadVote = votePayloadFromState(newState);
+    if (!currentUserId) return;
+    if (event.target.closest(".place-actions")) return;
 
-    const actionWrap = target.closest(".place-actions");
-    const actionButtons = actionWrap
-      ? Array.from(actionWrap.querySelectorAll(".vote-btn"))
-      : [target];
+    const card = event.target.closest(".place-card-clickable[data-place-id]");
+    if (!card) return;
 
-    actionButtons.forEach((btn) => {
-      btn.disabled = true;
-    });
+    const placeId = card.dataset.placeId;
+    if (!placeId) return;
+    window.location.href = `place_details.html?id=${encodeURIComponent(placeId)}`;
+  });
 
-    try {
-      await submitVote(placeId, payloadVote);
-      voteState[placeKey] = newState;
+  placesGrid.addEventListener("keydown", (event) => {
+    if (!currentUserId) return;
+    if (event.key !== "Enter" && event.key !== " ") return;
 
-      if (actionWrap) {
-        actionButtons.forEach((btn) => btn.classList.remove("active"));
-        if (newState) {
-          const selectedBtn = actionWrap.querySelector(
-            `.vote-btn[data-vote-type="${newState}"]`,
-          );
-          if (selectedBtn) selectedBtn.classList.add("active");
-        }
-      }
-    } catch (error) {
-      console.error("Vote error:", error);
-    } finally {
-      actionButtons.forEach((btn) => {
-        btn.disabled = false;
-      });
+    const card = event.target.closest(".place-card-clickable[data-place-id]");
+    if (!card) return;
+
+    event.preventDefault();
+    const placeId = card.dataset.placeId;
+    if (placeId) {
+      window.location.href = `place_details.html?id=${encodeURIComponent(placeId)}`;
     }
   });
 

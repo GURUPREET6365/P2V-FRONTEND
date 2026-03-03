@@ -1,35 +1,17 @@
 document.addEventListener("DOMContentLoaded", async () => {
   const userProfileBtn = document.getElementById("userProfile");
   const ctaButton = document.getElementById("ctaButton");
+  const auth = window.AuthManager;
 
   async function initAuth() {
-    const token = localStorage.getItem("p2v_token");
-    if (!token) {
+    if (!auth?.hasValidSession()) {
       updateUI(null);
       return null;
     }
 
-    try {
-      const response = await fetch("http://127.0.0.1:8000/api/me", {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-
-      if (response.ok) {
-        const userData = await response.json();
-        updateUI(userData);
-        return userData;
-      } else {
-        localStorage.removeItem("p2v_token");
-        updateUI(null);
-        return null;
-      }
-    } catch (error) {
-      console.error("Auth verification failed:", error);
-      updateUI(null);
-      return null;
-    }
+    const userData = await auth.verifySession();
+    updateUI(userData);
+    return userData;
   }
 
   function updateUI(user) {

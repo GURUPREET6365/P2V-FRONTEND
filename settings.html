@@ -15,12 +15,6 @@
     />
     <link rel="stylesheet" href="css/index.css" />
     <link rel="stylesheet" href="css/auth.css" />
-
-    <script>
-      if (!localStorage.getItem("p2v_token")) {
-        window.location.href = "login.html";
-      }
-    </script>
   </head>
   <body data-page="settings">
     <div id="appNav"></div>
@@ -73,10 +67,30 @@
 
                   <div class="settings-item">
                     <div>
+                      <div class="fw-bold">Member Since</div>
+                      <div class="small settings-muted" id="userCreatedAt">
+                        Loading...
+                      </div>
+                    </div>
+                    <i class="fa-regular fa-calendar text-primary"></i>
+                  </div>
+
+                  <div class="settings-item">
+                    <div>
                       <div class="fw-bold">Security</div>
-                      <div class="small settings-muted">JWT session active</div>
+                      <div class="small settings-muted">JWT session active (5 days)</div>
                     </div>
                     <i class="fa-solid fa-shield-halved text-primary"></i>
+                  </div>
+
+                  <div class="settings-item">
+                    <div>
+                      <div class="fw-bold">Session Expires</div>
+                      <div class="small settings-muted" id="sessionExpiry">
+                        Calculating...
+                      </div>
+                    </div>
+                    <i class="fa-regular fa-clock text-primary"></i>
                   </div>
                 </div>
               </div>

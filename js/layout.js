@@ -114,31 +114,24 @@ document.addEventListener("DOMContentLoaded", () => {
     const profileBtn = document.getElementById("userProfile");
     if (!loginBtn || !profileBtn) return;
 
-    const token = localStorage.getItem("p2v_token");
-    if (!token) {
+    const auth = window.AuthManager;
+    if (!auth?.hasValidSession()) {
       loginBtn.classList.remove("d-none");
       profileBtn.classList.add("d-none");
       return;
     }
 
-    try {
-      const response = await fetch("http://127.0.0.1:8000/api/me", {
-        headers: { Authorization: `Bearer ${token}` },
-      });
-
-      if (response.ok) {
-        loginBtn.classList.add("d-none");
-        profileBtn.classList.remove("d-none");
-      } else {
-        localStorage.removeItem("p2v_token");
-        loginBtn.classList.remove("d-none");
-        profileBtn.classList.add("d-none");
-      }
-    } catch (error) {
+    const user = await auth.verifySession();
+    if (!user) {
       loginBtn.classList.remove("d-none");
       profileBtn.classList.add("d-none");
+      return;
     }
+
+    loginBtn.classList.add("d-none");
+    profileBtn.classList.remove("d-none");
   }
 
   syncNavbarAuthState();
+  window.addEventListener("p2v:auth-changed", syncNavbarAuthState);
 });

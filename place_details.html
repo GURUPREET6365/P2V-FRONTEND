@@ -1,0 +1,74 @@
+<!doctype html>
+<html lang="en" data-bs-theme="dark">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Place Details | P2V</title>
+
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"
+    />
+    <link rel="stylesheet" href="css/index.css" />
+    <link rel="stylesheet" href="css/place_details.css" />
+  </head>
+
+  <body data-page="places">
+    <div id="appNav"></div>
+
+    <main>
+      <section class="container section-block">
+        <a href="places.html" class="cta-primary cta-secondary d-inline-flex align-items-center mb-4">
+          <i class="fa-solid fa-arrow-left me-2"></i>
+          Back to places
+        </a>
+
+        <div id="loadingState" class="state-card text-center">
+          <div class="spinner-border text-primary mb-3" role="status"></div>
+          <p>Loading place details...</p>
+        </div>
+
+        <div id="errorState" class="state-card error d-none">
+          <h5 class="mb-2">
+            <i class="fa-solid fa-circle-exclamation me-2"></i>
+            Unable to load place details
+          </h5>
+          <p id="errorMessage" class="mb-0">
+            Please retry after a moment.
+          </p>
+        </div>
+
+        <div id="detailsState" class="d-none">
+          <article class="state-card place-details-card">
+            <h1 id="placeName" class="place-detail-title mb-3">Place</h1>
+
+            <div class="place-actions details-actions">
+              <button id="likeBtn" class="vote-btn like" type="button">
+                <i class="fa-regular fa-thumbs-up"></i> Like
+              </button>
+              <button id="dislikeBtn" class="vote-btn dislike" type="button">
+                <i class="fa-regular fa-thumbs-down"></i> Dislike
+              </button>
+            </div>
+
+            <div class="notes-shell mt-4">
+              <h5 class="notes-title"><strong>Place Details:</strong></h5>
+              <div id="placeNotes" class="notes-list"></div>
+            </div>
+          </article>
+        </div>
+      </section>
+    </main>
+
+    <div id="appFooter"></div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="js/layout.js"></script>
+    <script src="js/auth.js"></script>
+    <script src="js/place_details.js"></script>
+  </body>
+</html>
