@@ -146,7 +146,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     for (const endpoint of endpoints) {
       try {
         const response = await fetch(endpoint, {
-          method: "POST",
+          method: "DELETE",
           headers: {
             "Content-Type": "application/json",
             ...auth.getAuthHeaders(),
@@ -383,3 +383,4 @@ document.addEventListener("DOMContentLoaded", async () => {
 
   await loadAndRenderPlaces();
 });
+

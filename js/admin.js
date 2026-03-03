@@ -29,13 +29,13 @@ document.addEventListener("DOMContentLoaded", async () => {
         app: "Accounts",
         model: "Users",
         desc: "Manage all users",
-        href: "admin_data.html?resource=users",
+        href: "admin_users.html",
       },
       {
         app: "Engagement",
         model: "Votes",
         desc: "Manage votes",
-        href: "admin_data.html?resource=votes",
+        href: "admin_votes.html",
       },
     ];
 
