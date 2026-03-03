@@ -75,6 +75,16 @@
                     <i class="fa-regular fa-calendar text-primary"></i>
                   </div>
 
+                  <div class="settings-item d-none" id="userRoleRow">
+                    <div>
+                      <div class="fw-bold">Role</div>
+                      <div class="small settings-muted" id="userRoleValue">
+                        -
+                      </div>
+                    </div>
+                    <i class="fa-solid fa-user-shield text-primary"></i>
+                  </div>
+
                   <div class="settings-item">
                     <div>
                       <div class="fw-bold">Security</div>
@@ -94,6 +104,17 @@
                   </div>
                 </div>
               </div>
+
+              <a
+                href="http://127.0.0.1:8000/admin"
+                target="_blank"
+                rel="noopener noreferrer"
+                id="adminPanelBtn"
+                class="cta-primary w-100 border-0 d-none mb-3 text-center"
+              >
+                <i class="fa-solid fa-user-shield me-2"></i>
+                Admin Panel
+              </a>
 
               <button onclick="logout()" class="danger-btn w-100">
                 <i class="fa-solid fa-right-from-bracket me-2"></i>

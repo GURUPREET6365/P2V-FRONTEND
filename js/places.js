@@ -3,6 +3,7 @@ document.addEventListener("DOMContentLoaded", async () => {
   const placesGrid = document.getElementById("placesGrid");
   const loadingState = document.getElementById("loadingState");
   const errorState = document.getElementById("errorState");
+  const emptyState = document.getElementById("emptyState");
   const voteState = {};
   const auth = window.AuthManager;
   let currentUserId = null;
@@ -35,17 +36,57 @@ document.addEventListener("DOMContentLoaded", async () => {
     else userProfileBtn.classList.add("d-none");
   }
 
+  function extractPlacesArray(payload) {
+    if (Array.isArray(payload)) return payload;
+    if (Array.isArray(payload?.places)) return payload.places;
+    if (Array.isArray(payload?.data)) return payload.data;
+    if (Array.isArray(payload?.results)) return payload.results;
+    return [];
+  }
+
+  async function requestPlacesFromApi() {
+    const endpoints = [
+      "http://127.0.0.1:8000/api/all/place",
+      "http://127.0.0.1:8000/api/place",
+    ];
+
+    let lastError = null;
+    for (const endpoint of endpoints) {
+      try {
+        const response = await fetch(endpoint, {
+          headers: auth?.getAuthHeaders?.() || {},
+        });
+        if (!response.ok) {
+          lastError = new Error(`API Error ${response.status} from ${endpoint}`);
+          continue;
+        }
+        const payload = await response.json();
+        return extractPlacesArray(payload);
+      } catch (error) {
+        lastError = error;
+      }
+    }
+
+    throw lastError || new Error("Unable to fetch places");
+  }
+
   async function fetchPlaces() {
     try {
-      const response = await fetch("http://127.0.0.1:8000/api/all/place", {
-        headers: auth?.getAuthHeaders?.() || {},
-      });
-      if (!response.ok) throw new Error("API Error");
+      const places = await requestPlacesFromApi();
+      if (!Array.isArray(places) || places.length === 0) {
+        loadingState.classList.add("d-none");
+        placesGrid.style.display = "none";
+        errorState.style.display = "none";
+        if (emptyState) emptyState.style.display = "block";
+        return;
+      }
 
-      const data = await response.json();
-      renderPlaces(data);
+      if (emptyState) emptyState.style.display = "none";
+      renderPlaces(places);
     } catch (error) {
       loadingState.classList.add("d-none");
+      placesGrid.style.display = "none";
+      if (emptyState) emptyState.style.display = "none";
       errorState.style.display = "block";
       console.error("Fetch error:", error);
     }
@@ -74,6 +115,8 @@ document.addEventListener("DOMContentLoaded", async () => {
 
   function renderPlaces(places) {
     loadingState.classList.add("d-none");
+    errorState.style.display = "none";
+    if (emptyState) emptyState.style.display = "none";
     placesGrid.style.display = "flex";
     voteStateResetFromApi(places);
 

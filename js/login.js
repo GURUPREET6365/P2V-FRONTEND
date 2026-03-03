@@ -1,4 +1,5 @@
 const API_AUTH_URL = `${window.AuthManager?.API_BASE_URL || "http://127.0.0.1:8000"}/api/auth/google`;
+const API_EMAIL_LOGIN_URL = `${window.AuthManager?.API_BASE_URL || "http://127.0.0.1:8000"}/api/login`;
 let loginInFlight = false;
 
 function getPostLoginRedirect() {
@@ -36,15 +37,65 @@ function setupPasswordToggle() {
   });
 }
 
+async function handleEmailPasswordLogin(event) {
+  event.preventDefault();
+  if (loginInFlight) return;
+
+  const emailInput = document.getElementById("emailInput");
+  const passwordInput = document.getElementById("passwordInput");
+  if (!emailInput || !passwordInput) return;
+
+  const email = emailInput.value.trim();
+  const password = passwordInput.value;
+  if (!email || !password) {
+    showToast("Please enter email and password.", "danger");
+    return;
+  }
+
+  loginInFlight = true;
+  showToast("Signing you in...", "primary");
+
+  try {
+    const response = await fetch(API_EMAIL_LOGIN_URL, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        email,
+        password,
+      }),
+    });
+
+    if (!response.ok) {
+      const errorText = await response.text();
+      console.error("Email login failed:", errorText);
+      showToast("Invalid credentials or login failed.", "danger");
+      return;
+    }
+
+    const data = await response.json();
+    const accessToken = data?.access_token || data?.token;
+    if (!accessToken) {
+      showToast("Login response is missing access token.", "danger");
+      return;
+    }
+
+    window.AuthManager?.setSession(accessToken);
+    showToast("Login successful.", "success");
+    window.location.replace(getPostLoginRedirect());
+  } catch (error) {
+    console.error("Email login request failed:", error);
+    showToast("Network issue during login. Please retry.", "danger");
+  } finally {
+    loginInFlight = false;
+  }
+}
+
 document.addEventListener("DOMContentLoaded", async () => {
   setupPasswordToggle();
 
   const loginForm = document.getElementById("loginForm");
   if (loginForm) {
-    loginForm.addEventListener("submit", (event) => {
-      event.preventDefault();
-      showToast("Email login is disabled. Please use Google Sign-In.", "primary");
-    });
+    loginForm.addEventListener("submit", handleEmailPasswordLogin);
   }
 
   if (!window.AuthManager) return;

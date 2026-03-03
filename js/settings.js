@@ -5,7 +5,9 @@ document.addEventListener("DOMContentLoaded", async () => {
   const errorState = document.getElementById("errorState");
   const sessionExpiryEl = document.getElementById("sessionExpiry");
   const userCreatedAtEl = document.getElementById("userCreatedAt");
-  const userUpdatedAtEl = document.getElementById("userUpdatedAt");
+  const userRoleRow = document.getElementById("userRoleRow");
+  const userRoleValue = document.getElementById("userRoleValue");
+  const adminPanelBtn = document.getElementById("adminPanelBtn");
 
   function pickFirst(obj, keys) {
     for (const key of keys) {
@@ -66,14 +68,18 @@ document.addEventListener("DOMContentLoaded", async () => {
       userCreatedAtEl.textContent = formatDateTime(createdAtRaw);
     }
 
-    if (userUpdatedAtEl) {
-      const updatedAtRaw = pickFirst(userData, [
-        "updated_at",
-        "updatedAt",
-        "modified_at",
-        "modifiedAt",
-      ]);
-      userUpdatedAtEl.textContent = formatDateTime(updatedAtRaw);
+    const role = String(userData?.role || "").trim().toLowerCase();
+    const isPrivilegedRole = role === "staff" || role === "admin";
+
+    if (adminPanelBtn) {
+      adminPanelBtn.classList.toggle("d-none", !isPrivilegedRole);
+    }
+
+    if (userRoleRow && userRoleValue) {
+      userRoleRow.classList.toggle("d-none", !isPrivilegedRole);
+      if (isPrivilegedRole) {
+        userRoleValue.textContent = role.charAt(0).toUpperCase() + role.slice(1);
+      }
     }
 
     loadingState.style.display = "none";
