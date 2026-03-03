@@ -1,0 +1,247 @@
+.admin-model-table th,
+.admin-data-table th {
+  color: #93c5fd;
+  font-size: 0.78rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.admin-model-table td,
+.admin-data-table td {
+  color: #e2e8f0;
+  vertical-align: top;
+  word-break: break-word;
+}
+
+.admin-model-table tr:not(:last-child) td,
+.admin-data-table tr:not(:last-child) td {
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.admin-link-btn {
+  font-size: 0.82rem;
+  padding: 8px 14px;
+}
+
+.admin-places-list {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.admin-place-card {
+  background: rgba(15, 23, 42, 0.45);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 12px;
+  padding: 14px 16px;
+  position: relative;
+}
+
+.admin-card-actions {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  display: flex;
+  align-items: center;
+  flex-wrap: nowrap;
+  gap: 8px;
+}
+
+.admin-place-id {
+  color: #cbd5e1;
+  margin-bottom: 10px;
+  padding-right: 124px;
+}
+
+.admin-place-details {
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  padding-top: 10px;
+}
+
+.admin-place-title {
+  color: #e2e8f0;
+  margin-bottom: 8px;
+}
+
+.admin-place-field {
+  padding: 8px 0;
+  border-bottom: 1px dashed rgba(255, 255, 255, 0.08);
+}
+
+.admin-place-field:last-child {
+  border-bottom: 0;
+}
+
+.admin-place-label {
+  font-size: 0.74rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: #93c5fd;
+  margin-bottom: 4px;
+}
+
+.admin-place-value {
+  color: #e2e8f0;
+  line-height: 1.6;
+  word-break: break-word;
+}
+
+.admin-edit-cell {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.admin-place-edit-btn {
+  min-width: 72px;
+  height: 34px;
+  border: 1px solid rgba(96, 165, 250, 0.45);
+  border-radius: 10px;
+  background: linear-gradient(
+    145deg,
+    rgba(37, 99, 235, 0.22),
+    rgba(30, 64, 175, 0.12)
+  );
+  color: #bfdbfe;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 10px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  transition: all 0.2s ease;
+  box-shadow: 0 6px 14px rgba(15, 23, 42, 0.35);
+}
+
+.admin-place-edit-btn:hover {
+  transform: translateY(-1px);
+  color: #ffffff;
+  border-color: rgba(96, 165, 250, 0.72);
+  background: linear-gradient(
+    145deg,
+    rgba(37, 99, 235, 0.34),
+    rgba(30, 64, 175, 0.2)
+  );
+}
+
+.admin-place-edit-btn:focus-visible {
+  outline: 2px solid #60a5fa;
+  outline-offset: 2px;
+}
+
+.admin-edit-btn {
+  width: 34px;
+  height: 34px;
+  border: 1px solid rgba(96, 165, 250, 0.45);
+  border-radius: 10px;
+  background: linear-gradient(
+    145deg,
+    rgba(37, 99, 235, 0.22),
+    rgba(30, 64, 175, 0.12)
+  );
+  color: #bfdbfe;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+  box-shadow: 0 6px 14px rgba(15, 23, 42, 0.35);
+}
+
+.admin-edit-btn:hover {
+  transform: translateY(-1px);
+  color: #ffffff;
+  border-color: rgba(96, 165, 250, 0.72);
+  background: linear-gradient(
+    145deg,
+    rgba(37, 99, 235, 0.34),
+    rgba(30, 64, 175, 0.2)
+  );
+}
+
+.admin-edit-btn:focus-visible {
+  outline: 2px solid #60a5fa;
+  outline-offset: 2px;
+}
+
+.admin-edit-btn:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.admin-delete-btn {
+  position: static;
+  width: 34px;
+  height: 34px;
+  min-width: 34px;
+  border: 1px solid rgba(248, 113, 113, 0.45);
+  border-radius: 10px;
+  background: rgba(127, 29, 29, 0.26);
+  color: #fda4af;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+}
+
+.admin-delete-btn:hover {
+  color: #fff;
+  background: rgba(185, 28, 28, 0.42);
+  border-color: rgba(248, 113, 113, 0.75);
+}
+
+.admin-delete-btn:focus-visible {
+  outline: 2px solid #f87171;
+  outline-offset: 2px;
+}
+
+.admin-delete-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+@media (max-width: 575.98px) {
+  .admin-model-table th,
+  .admin-model-table td,
+  .admin-data-table th,
+  .admin-data-table td {
+    font-size: 0.8rem;
+  }
+
+  .admin-link-btn {
+    width: 100%;
+    text-align: center;
+  }
+
+  .admin-edit-btn {
+    width: 32px;
+    height: 32px;
+    border-radius: 9px;
+    min-width: 32px;
+  }
+
+  .admin-place-edit-btn {
+    height: 32px;
+    border-radius: 9px;
+    min-width: 68px;
+    font-size: 0.74rem;
+    padding: 0 8px;
+  }
+
+  .admin-card-actions {
+    top: 8px;
+    right: 8px;
+    gap: 6px;
+  }
+
+  .admin-place-id {
+    padding-right: 110px;
+  }
+}
+
+@media (max-width: 767.98px) {
+  .admin-place-card {
+    padding: 12px;
+  }
+}

@@ -1,0 +1,151 @@
+<!doctype html>
+<html lang="en" data-bs-theme="dark">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Admin Places | P2V</title>
+
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"
+    />
+    <link rel="stylesheet" href="css/index.css" />
+    <link rel="stylesheet" href="css/auth.css" />
+    <link rel="stylesheet" href="css/admin.css" />
+  </head>
+  <body data-page="settings">
+    <div id="appNav"></div>
+
+    <main class="settings-main">
+      <section class="container section-block">
+        <a href="admin.html" class="auth-back d-inline-flex mb-4">
+          <i class="fa-solid fa-arrow-left me-2"></i>
+          Back to admin dashboard
+        </a>
+
+        <div id="loadingState" class="state-card text-center">
+          <div class="spinner-border text-primary mb-3" role="status"></div>
+          <p>Loading places...</p>
+        </div>
+
+        <div id="errorState" class="state-card error d-none">
+          <h6 class="mb-2">
+            <i class="fa-solid fa-circle-exclamation me-2"></i>
+            Failed to load places
+          </h6>
+          <p id="errorText" class="mb-0">Please try again.</p>
+        </div>
+
+        <div id="dataState" class="d-none">
+          <div class="state-card mb-4">
+            <div class="d-flex flex-column flex-md-row align-items-md-center justify-content-between gap-3">
+              <div>
+                <h1 class="settings-title mb-1">Places</h1>
+                <p class="settings-muted mb-0">
+                  Managed from <code>/api/admin/place</code>.
+                </p>
+                <p class="settings-muted mb-0 mt-1">
+                  Total places: <strong id="placeCount">0</strong>
+                </p>
+              </div>
+              <button class="cta-primary border-0" data-bs-toggle="modal" data-bs-target="#addPlaceModal">
+                <i class="fa-solid fa-plus me-2"></i>
+                Add Place
+              </button>
+            </div>
+          </div>
+
+          <div id="emptyState" class="state-card text-center d-none">
+            <i class="fa-regular fa-folder-open"></i>
+            <h6 class="mt-2">No places found</h6>
+          </div>
+
+          <div id="placesWrap" class="state-card">
+            <div id="placesList" class="admin-places-list"></div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <div id="appFooter"></div>
+
+    <div class="modal fade" id="addPlaceModal" tabindex="-1" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content bg-dark border border-secondary-subtle">
+          <div class="modal-header border-secondary-subtle">
+            <h5 class="modal-title">Add Place</h5>
+            <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+          </div>
+          <form id="addPlaceForm">
+            <div class="modal-body">
+              <div class="mb-3">
+                <label class="form-label">Place Name</label>
+                <input id="addPlaceName" class="form-control" required />
+              </div>
+              <div class="mb-3">
+                <label class="form-label">Address</label>
+                <input id="addPlaceAddress" class="form-control" required />
+              </div>
+              <div class="mb-3">
+                <label class="form-label">Pincode</label>
+                <input id="addPlacePincode" class="form-control" required />
+              </div>
+              <div class="mb-0">
+                <label class="form-label">About Place</label>
+                <textarea id="addPlaceAbout" class="form-control" rows="3" required></textarea>
+              </div>
+            </div>
+            <div class="modal-footer border-secondary-subtle">
+              <button type="button" class="btn btn-outline-light" data-bs-dismiss="modal">Cancel</button>
+              <button type="submit" class="btn btn-primary">Create Place</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <div class="modal fade" id="editPlaceModal" tabindex="-1" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content bg-dark border border-secondary-subtle">
+          <div class="modal-header border-secondary-subtle">
+            <h5 class="modal-title">Edit Place</h5>
+            <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+          </div>
+          <form id="editPlaceForm">
+            <div class="modal-body">
+              <div class="mb-3">
+                <label class="form-label">Place Name</label>
+                <input id="editPlaceName" class="form-control" required />
+              </div>
+              <div class="mb-3">
+                <label class="form-label">Address</label>
+                <input id="editPlaceAddress" class="form-control" required />
+              </div>
+              <div class="mb-3">
+                <label class="form-label">Pincode</label>
+                <input id="editPlacePincode" class="form-control" required />
+              </div>
+              <div class="mb-0">
+                <label class="form-label">About Place</label>
+                <textarea id="editPlaceAbout" class="form-control" rows="3" required></textarea>
+              </div>
+            </div>
+            <div class="modal-footer border-secondary-subtle">
+              <button type="button" class="btn btn-outline-light" data-bs-dismiss="modal">Cancel</button>
+              <button type="submit" class="btn btn-primary">Update Place</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="js/layout.js"></script>
+    <script src="js/auth.js"></script>
+    <script src="js/admin_places.js"></script>
+  </body>
+</html>
