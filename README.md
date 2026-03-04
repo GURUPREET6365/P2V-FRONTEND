@@ -1,125 +1,184 @@
-# P2V Frontend - Place to Visit
+# P2V Frontend
 
-## 🤖 AI-Generated Frontend
+Frontend application for P2V (Place to Visit), built with vanilla HTML/CSS/JavaScript and Bootstrap.
 
-This frontend application was **created by AI** as a **basic showcase** of modern web development practices and user interface design.
+This project provides:
+- Public and authenticated place browsing
+- Like/dislike voting
+- Category-based place rating (create + update on same endpoint)
+- Place details with rating breakdown
+- Admin dashboard with model views (places, users, votes, ratings)
 
-## 📱 About This Project
+## 1. Tech Stack
 
-P2V (Place to Visit) is a social platform where users can discover, share, and interact with amazing places around the world. This frontend demonstrates:
+- HTML5
+- CSS3
+- Vanilla JavaScript (ES6+)
+- Bootstrap 5
+- Font Awesome
 
-- **Modern Web Technologies**: Vanilla JavaScript, CSS3, HTML5
-- **Responsive Design**: Mobile-first approach with dark theme
-- **Authentication System**: Django-like `is_authenticated` functionality
-- **Social Features**: Like, dislike, and share places
-- **Progressive Enhancement**: Works for both authenticated and anonymous users
+## 2. Project Structure
 
-## 🎯 Key Features
-
-### 🔐 Authentication
-- **Google OAuth Integration**: Secure sign-in with Google
-- **JWT Token Management**: Enterprise-level token handling with auto-refresh
-- **Unified User Experience**: Single page that adapts to authentication state
-- **Session Persistence**: Maintains login across browser sessions
-
-### 🏞️ Place Discovery
-- **Instagram-style Cards**: Beautiful place presentation
-- **Responsive Grid Layout**: Adapts to all screen sizes
-- **Smart Content Truncation**: Clean, readable place information
-- **Shareable URLs**: Direct links to place details
-
-### 💬 Social Interaction
-- **Like/Dislike System**: Toggle voting with visual feedback
-- **Share Functionality**: Native sharing on mobile, clipboard fallback
-- **Real-time Updates**: Instant UI updates after interactions
-- **Anonymous Browsing**: Full place viewing without authentication
-
-### 🎨 Design System
-- **Dark Theme**: Modern, eye-friendly interface
-- **Mobile-First**: Optimized for touch devices
-- **Zero Hover Effects**: Touch-friendly interactions
-- **Consistent Typography**: Clean, readable text hierarchy
-
-## 📁 Project Structure
-
-```
-FRONTEND/
+```text
+P2V-FRONTEND/
 ├── css/
-│   ├── main.css           # Shared styles and components
-│   ├── index.css          # Home page specific styles
-│   ├── login.css          # Login page styles
-│   ├── settings.css       # Settings page styles
-│   └── place-details.css  # Place details page styles
+│   ├── index.css
+│   ├── auth.css
+│   ├── login.css
+│   ├── settings.css
+│   ├── place_details.css
+│   └── admin.css
 ├── js/
-│   ├── auth.js           # Authentication management system
-│   ├── index.js          # Main page functionality
-│   ├── login.js          # Google OAuth integration
-│   ├── settings.js       # User settings and profile
-│   └── place-details.js  # Individual place page
-├── index.html            # Main application page (unified)
-├── login.html            # Authentication page
-├── settings.html         # User profile and settings
-├── place-details.html    # Individual place details
-└── README.md            # This file
+│   ├── auth.js
+│   ├── layout.js
+│   ├── index.js
+│   ├── login.js
+│   ├── places.js
+│   ├── place_details.js
+│   ├── settings.js
+│   ├── admin.js
+│   ├── admin_places.js
+│   ├── admin_users.js
+│   ├── admin_votes.js
+│   ├── admin_ratings.js
+│   └── admin_data.js
+├── index.html
+├── login.html
+├── places.html
+├── place_details.html
+├── settings.html
+├── admin.html
+├── admin_places.html
+├── admin_users.html
+├── admin_votes.html
+├── admin_ratings.html
+└── README.md
 ```
 
-## 🚀 Technical Highlights
+## 3. Prerequisites
 
-### Authentication Architecture
-- **Centralized AuthManager**: Single source of truth for authentication state
-- **Token Lifecycle Management**: Automatic refresh, expiry handling, cleanup
-- **Django-like Patterns**: `isAuthenticated()`, `getCurrentUser()`, conditional rendering
+- Backend API running (expected base URL: `http://127.0.0.1:8000`)
+- Modern browser (Chrome/Edge/Firefox)
 
-### Responsive Design
-- **CSS Grid & Flexbox**: Modern layout techniques
-- **Mobile Breakpoints**: 768px, 480px responsive breakpoints
-- **Touch Optimization**: Proper button sizing and spacing
-- **Progressive Enhancement**: Core functionality works everywhere
+## 4. Local Run
 
-### API Integration
-- **RESTful Endpoints**: Clean integration with FastAPI backend
-- **Error Handling**: Graceful fallbacks and user feedback
-- **Loading States**: Smooth user experience during data fetching
-- **Caching Strategy**: Efficient data management and updates
+Serve this folder with any static server.
 
-## 🎨 Design Philosophy
+Example (Python):
 
-### User Experience
-- **Intuitive Navigation**: Clear, consistent interface patterns
-- **Immediate Feedback**: Visual responses to user actions
-- **Accessibility**: Semantic HTML and proper contrast ratios
-- **Performance**: Optimized loading and smooth interactions
+```bash
+cd P2V-FRONTEND
+python -m http.server 5500
+```
 
-### Code Quality
-- **Modular Architecture**: Separated concerns and reusable components
-- **Clean Code**: Readable, maintainable JavaScript
-- **Error Resilience**: Comprehensive error handling and recovery
-- **Documentation**: Clear comments and function descriptions
+Open:
+- `http://127.0.0.1:5500/index.html`
 
-## 🌟 AI Showcase Features
+## 5. Configuration
 
-This project demonstrates AI's capability to create:
+API base is defined in:
+- `js/auth.js` -> `API_BASE_URL`
 
-1. **Complex Authentication Systems**: Enterprise-level JWT management
-2. **Responsive Web Design**: Mobile-first, accessible interfaces
-3. **Social Media Features**: Like/dislike, sharing, user interactions
-4. **Modern JavaScript Patterns**: ES6+, async/await, modular design
-5. **CSS Architecture**: Scalable, maintainable styling systems
+Default:
+- `http://127.0.0.1:8000`
 
-## 🔧 Setup & Usage
+## 6. Core User Flows
 
-1. **Serve the files**: Use any static file server
-2. **Configure Google OAuth**: Update `GOOGLE_CLIENT_ID` in `js/login.js`
-3. **Backend Integration**: Ensure P2V API is running on `http://127.0.0.1:8000`
-4. **Open in Browser**: Navigate to `index.html`
+### Authentication
+- Session/token handling via `AuthManager` (`js/auth.js`)
+- Protected page guards via `requireAuth()`
 
-## 📝 Notes
+### Places Listing (`places.html`)
+- Fetch all places
+- Render cards with:
+  - place info
+  - like/dislike counts
+  - overall rating display
+  - total users rated
+- Sort cards by highest rating and engagement
+- Open rating modal from card
+- Prefill modal when `is_user_rated = true`
 
-- This is a **demonstration project** created by AI
-- Designed for **educational and showcase purposes**
-- Implements **modern web development best practices**
-- Showcases **responsive design and user experience principles**
+### Place Details (`place_details.html`)
+- Fetch single place details by `id` query param
+- Like/dislike with counts
+- Show 7 category ratings section at bottom
+- Edit rating through modal with prefilled stars (if user already rated)
 
----
+## 7. Rating Model (Frontend Payload)
 
-**Created by AI** • **Showcase Project** • **Modern Web Development**
+Frontend submits rating payload as:
+
+```json
+{
+  "overall": 5,
+  "cleanliness": 4,
+  "safety": 5,
+  "crowd_behavior": 4,
+  "lightning": 4,
+  "transport_access": 5,
+  "facility_quality": 4
+}
+```
+
+Endpoint used for both create and update:
+- `POST /api/place/rating/{place_id}`
+
+Auth:
+- Requires `Authorization: Bearer <token>`
+
+## 8. Admin Module
+
+Admin pages:
+- `admin.html` (dashboard)
+- `admin_places.html`
+- `admin_users.html`
+- `admin_votes.html`
+- `admin_ratings.html`
+
+Ratings admin endpoint:
+- `GET /api/admin/rating`
+
+Access:
+- Admin-restricted routes verify role using session user data.
+
+## 9. API Endpoints Used (Current)
+
+- `GET /api/me`
+- `GET /api/all/place` (fallback: `GET /api/place`)
+- `GET /api/place/{id}`
+- `POST /api/vote/{place_id}`
+- `POST /api/place/rating/{place_id}`
+- `GET /api/admin/votes`
+- `GET /api/admin/rating`
+
+## 10. UI Notes
+
+- Rating forms are shown in floating Bootstrap modals
+- All 7 rating categories are mandatory
+- Rate button is visually highlighted when user already rated
+- Stars are fixed to correctly map click value (5 = 5)
+
+## 11. Troubleshooting
+
+- `401/403` responses:
+  - Session/token likely expired
+  - User is redirected to login on protected actions
+
+- Ratings not visible on cards:
+  - Ensure backend returns `total_user_rated` and either category fields or overall-compatible value
+
+- Admin page shows access error:
+  - Logged-in role is not `admin`
+
+## 12. Security Notes
+
+- JWT token is stored in browser local storage by current implementation.
+- Do not use this setup as-is for high-security production environments without hardening.
+
+## 13. Future Improvements
+
+- Add linting/format tooling and CI checks
+- Add integration tests for rating/vote flows
+- Add typed API layer for stronger frontend-backend contracts
+- Add pagination and filtering for large place datasets
