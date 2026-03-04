@@ -37,6 +37,12 @@ document.addEventListener("DOMContentLoaded", async () => {
         desc: "Manage votes",
         href: "admin_votes.html",
       },
+      {
+        app: "Engagement",
+        model: "Ratings",
+        desc: "Manage ratings",
+        href: "admin_ratings.html",
+      },
     ];
 
     const rows = role === "admin" ? [...commonRows, ...adminOnlyRows] : commonRows;
