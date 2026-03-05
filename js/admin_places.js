@@ -8,6 +8,11 @@ document.addEventListener("DOMContentLoaded", async () => {
   const placesWrap = document.getElementById("placesWrap");
   const placesList = document.getElementById("placesList");
   const placeCount = document.getElementById("placeCount");
+  const emptyStateTitle = emptyState?.querySelector("h6");
+  const adminPlaceSearchInput = document.getElementById("adminPlaceSearchInput");
+  const adminPlaceSearchClear = document.getElementById("adminPlaceSearchClear");
+  const adminPlaceSearchMeta = document.getElementById("adminPlaceSearchMeta");
+  const adminPlaceSearchWrap = adminPlaceSearchInput?.closest(".places-search-wrap");
   const addPlaceForm = document.getElementById("addPlaceForm");
   const editPlaceForm = document.getElementById("editPlaceForm");
   const addPlaceModalEl = document.getElementById("addPlaceModal");
@@ -23,6 +28,8 @@ document.addEventListener("DOMContentLoaded", async () => {
   let currentRole = "";
   let currentUser = null;
   let editingRowIndex = null;
+  let latestPlacesRequestId = 0;
+  let searchDebounceTimer = null;
 
   function getRole(user) {
     return String(user?.role || "").trim().toLowerCase();
@@ -70,8 +77,45 @@ document.addEventListener("DOMContentLoaded", async () => {
     return [];
   }
 
-  async function fetchPlaces() {
-    const response = await fetch(`${auth.API_BASE_URL}/api/admin/place`, {
+  function setSearchMeta(searchTerm, count) {
+    if (!adminPlaceSearchMeta) return;
+    const normalizedSearch = String(searchTerm || "").trim();
+    const normalizedCount = Math.max(0, Number(count) || 0);
+    if (!normalizedSearch) {
+      adminPlaceSearchMeta.textContent = "";
+      adminPlaceSearchMeta.classList.remove("is-visible");
+      return;
+    }
+    adminPlaceSearchMeta.textContent = `${normalizedCount} result${
+      normalizedCount === 1 ? "" : "s"
+    } for "${normalizedSearch}"`;
+    adminPlaceSearchMeta.classList.add("is-visible");
+  }
+
+  function syncSearchControls(value = "") {
+    const hasValue = String(value || "").trim().length > 0;
+    if (adminPlaceSearchClear) {
+      adminPlaceSearchClear.disabled = !hasValue;
+    }
+    if (adminPlaceSearchWrap) {
+      adminPlaceSearchWrap.classList.toggle("has-value", hasValue);
+    }
+  }
+
+  function setEmptyStateForSearch(searchTerm = "") {
+    const normalizedSearch = String(searchTerm || "").trim();
+    if (!emptyStateTitle) return;
+    emptyStateTitle.textContent = normalizedSearch
+      ? "No matching places found"
+      : "No places found";
+  }
+
+  async function fetchPlaces(searchTerm = "") {
+    const normalizedSearch = String(searchTerm || "").trim();
+    const endpoint = normalizedSearch
+      ? `${auth.API_BASE_URL}/api/admin/place/search?search=${encodeURIComponent(normalizedSearch)}`
+      : `${auth.API_BASE_URL}/api/admin/place`;
+    const response = await fetch(endpoint, {
       headers: auth.getAuthHeaders(),
     });
     if (!response.ok) throw new Error(`Failed to fetch places (${response.status})`);
@@ -222,20 +266,27 @@ document.addEventListener("DOMContentLoaded", async () => {
       .join("");
   }
 
-  async function loadAndRenderPlaces() {
+  async function loadAndRenderPlaces(searchTerm = "") {
+    const requestId = ++latestPlacesRequestId;
+    const normalizedSearch = String(searchTerm || "").trim();
+
     try {
-      const places = await fetchPlaces();
+      const places = await fetchPlaces(normalizedSearch);
+      if (requestId !== latestPlacesRequestId) return;
       currentPlaces = sortPlacesByIdAsc(
         places.map((place) => ({
         ...place,
         id: place?.id ?? place?.place_id ?? place?.placeId ?? null,
         })),
       );
+      setSearchMeta(normalizedSearch, currentPlaces.length);
+      setEmptyStateForSearch(normalizedSearch);
       loadingState.classList.add("d-none");
       errorState.classList.add("d-none");
       dataState.classList.remove("d-none");
       renderPlaceCards(currentPlaces);
     } catch (error) {
+      if (requestId !== latestPlacesRequestId) return;
       loadingState.classList.add("d-none");
       dataState.classList.add("d-none");
       errorState.classList.remove("d-none");
@@ -331,7 +382,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 
       addPlaceForm.reset();
       addPlaceModal?.hide();
-      await loadAndRenderPlaces();
+      await loadAndRenderPlaces(adminPlaceSearchInput?.value || "");
     });
   }
 
@@ -370,17 +421,46 @@ document.addEventListener("DOMContentLoaded", async () => {
         return;
       }
 
-      currentPlaces[editingRowIndex] = {
-        ...currentPlaces[editingRowIndex],
-        ...payload,
-      };
-      currentPlaces = sortPlacesByIdAsc(currentPlaces);
-      renderPlaceCards(currentPlaces);
       editPlaceModal?.hide();
       editingRowIndex = null;
+      await loadAndRenderPlaces(adminPlaceSearchInput?.value || "");
     });
   }
 
+  adminPlaceSearchInput?.addEventListener("input", () => {
+    syncSearchControls(adminPlaceSearchInput.value || "");
+    if (searchDebounceTimer) {
+      clearTimeout(searchDebounceTimer);
+    }
+    searchDebounceTimer = setTimeout(() => {
+      loadAndRenderPlaces(adminPlaceSearchInput.value || "");
+    }, 300);
+  });
+
+  adminPlaceSearchInput?.addEventListener("keydown", (event) => {
+    if (event.key !== "Enter") return;
+    event.preventDefault();
+    if (searchDebounceTimer) {
+      clearTimeout(searchDebounceTimer);
+      searchDebounceTimer = null;
+    }
+    loadAndRenderPlaces(adminPlaceSearchInput.value || "");
+  });
+
+  adminPlaceSearchClear?.addEventListener("click", () => {
+    if (searchDebounceTimer) {
+      clearTimeout(searchDebounceTimer);
+      searchDebounceTimer = null;
+    }
+    if (adminPlaceSearchInput) {
+      adminPlaceSearchInput.value = "";
+      adminPlaceSearchInput.focus();
+    }
+    syncSearchControls("");
+    loadAndRenderPlaces("");
+  });
+
+  syncSearchControls(adminPlaceSearchInput?.value || "");
   await loadAndRenderPlaces();
 });
 

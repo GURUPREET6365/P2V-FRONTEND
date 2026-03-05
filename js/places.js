@@ -4,6 +4,12 @@ document.addEventListener("DOMContentLoaded", async () => {
   const loadingState = document.getElementById("loadingState");
   const errorState = document.getElementById("errorState");
   const emptyState = document.getElementById("emptyState");
+  const emptyStateTitle = emptyState?.querySelector("h6");
+  const emptyStateText = emptyState?.querySelector("p");
+  const placesSearchInput = document.getElementById("placesSearchInput");
+  const placesSearchClear = document.getElementById("placesSearchClear");
+  const placesSearchMeta = document.getElementById("placesSearchMeta");
+  const placesSearchWrap = document.querySelector(".places-search-wrap");
   const ratingModalEl = document.getElementById("ratingModal");
   const ratingModalForm = document.getElementById("ratingModalForm");
   const ratingModalBody = document.getElementById("ratingModalBody");
@@ -26,6 +32,8 @@ document.addEventListener("DOMContentLoaded", async () => {
   let activeRatingPlaceId = null;
   let activeRatingPlaceKey = null;
   let currentUserId = null;
+  let latestPlacesRequestId = 0;
+  let searchDebounceTimer = null;
 
   async function initAuth() {
     if (!auth?.hasValidSession()) {
@@ -63,11 +71,16 @@ document.addEventListener("DOMContentLoaded", async () => {
     return [];
   }
 
-  async function requestPlacesFromApi() {
-    const endpoints = [
-      "http://127.0.0.1:8000/api/all/place",
-      "http://127.0.0.1:8000/api/place",
-    ];
+  async function requestPlacesFromApi(searchTerm = "") {
+    const base = auth?.API_BASE_URL || "http://127.0.0.1:8000";
+    const normalizedSearch = String(searchTerm || "").trim();
+    const endpoints = normalizedSearch
+      ? [
+          `${base}/api/places/search/?search=${encodeURIComponent(
+            normalizedSearch,
+          )}`,
+        ]
+      : [`${base}/api/all/place`, `${base}/api/place`];
 
     let lastError = null;
     for (const endpoint of endpoints) {
@@ -89,13 +102,60 @@ document.addEventListener("DOMContentLoaded", async () => {
     throw lastError || new Error("Unable to fetch places");
   }
 
-  async function fetchPlaces() {
+  function setEmptyStateForSearch(searchTerm = "") {
+    const normalizedSearch = String(searchTerm || "").trim();
+    if (!emptyStateTitle || !emptyStateText) return;
+    if (normalizedSearch) {
+      emptyStateTitle.textContent = "No matching places found";
+      emptyStateText.textContent = `Try another keyword for "${normalizedSearch}".`;
+      return;
+    }
+    emptyStateTitle.textContent = "No places found";
+    emptyStateText.textContent = "Create the first place and refresh this page.";
+  }
+
+  function setSearchMeta(searchTerm, count) {
+    if (!placesSearchMeta) return;
+    const normalizedSearch = String(searchTerm || "").trim();
+    const normalizedCount = Math.max(0, toFiniteNumber(count, 0));
+    if (!normalizedSearch) {
+      placesSearchMeta.textContent = "";
+      placesSearchMeta.classList.remove("is-visible");
+      return;
+    }
+    placesSearchMeta.textContent = `${normalizedCount} result${
+      normalizedCount === 1 ? "" : "s"
+    } for "${normalizedSearch}"`;
+    placesSearchMeta.classList.add("is-visible");
+  }
+
+  function syncSearchControls(value = "") {
+    const hasValue = String(value || "").trim().length > 0;
+    if (placesSearchClear) {
+      placesSearchClear.disabled = !hasValue;
+    }
+    if (placesSearchWrap) {
+      placesSearchWrap.classList.toggle("has-value", hasValue);
+    }
+  }
+
+  async function fetchPlaces(searchTerm = "") {
+    const requestId = ++latestPlacesRequestId;
+    const normalizedSearch = String(searchTerm || "").trim();
+
+    loadingState.classList.remove("d-none");
+    placesGrid.style.display = "none";
+    errorState.style.display = "none";
+    if (emptyState) emptyState.style.display = "none";
+
     try {
-      const places = await requestPlacesFromApi();
+      const places = await requestPlacesFromApi(normalizedSearch);
+      if (requestId !== latestPlacesRequestId) return;
+
+      setSearchMeta(normalizedSearch, Array.isArray(places) ? places.length : 0);
       if (!Array.isArray(places) || places.length === 0) {
+        setEmptyStateForSearch(normalizedSearch);
         loadingState.classList.add("d-none");
-        placesGrid.style.display = "none";
-        errorState.style.display = "none";
         if (emptyState) emptyState.style.display = "block";
         return;
       }
@@ -103,9 +163,11 @@ document.addEventListener("DOMContentLoaded", async () => {
       if (emptyState) emptyState.style.display = "none";
       renderPlaces(places);
     } catch (error) {
+      if (requestId !== latestPlacesRequestId) return;
       loadingState.classList.add("d-none");
       placesGrid.style.display = "none";
       if (emptyState) emptyState.style.display = "none";
+      setSearchMeta(normalizedSearch, 0);
       errorState.style.display = "block";
       console.error("Fetch error:", error);
     }
@@ -792,6 +854,40 @@ document.addEventListener("DOMContentLoaded", async () => {
     }
   });
 
+  placesSearchInput?.addEventListener("input", () => {
+    syncSearchControls(placesSearchInput.value || "");
+    if (searchDebounceTimer) {
+      clearTimeout(searchDebounceTimer);
+    }
+    searchDebounceTimer = setTimeout(() => {
+      fetchPlaces(placesSearchInput.value || "");
+    }, 300);
+  });
+
+  placesSearchInput?.addEventListener("keydown", (event) => {
+    if (event.key !== "Enter") return;
+    event.preventDefault();
+    if (searchDebounceTimer) {
+      clearTimeout(searchDebounceTimer);
+      searchDebounceTimer = null;
+    }
+    fetchPlaces(placesSearchInput.value || "");
+  });
+
+  placesSearchClear?.addEventListener("click", () => {
+    if (searchDebounceTimer) {
+      clearTimeout(searchDebounceTimer);
+      searchDebounceTimer = null;
+    }
+    if (placesSearchInput) {
+      placesSearchInput.value = "";
+      placesSearchInput.focus();
+    }
+    syncSearchControls("");
+    fetchPlaces("");
+  });
+
   await initAuth();
+  syncSearchControls(placesSearchInput?.value || "");
   fetchPlaces();
 });

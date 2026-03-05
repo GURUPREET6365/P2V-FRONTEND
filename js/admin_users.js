@@ -8,6 +8,11 @@ document.addEventListener("DOMContentLoaded", async () => {
   const usersWrap = document.getElementById("usersWrap");
   const usersList = document.getElementById("usersList");
   const userCount = document.getElementById("userCount");
+  const emptyStateTitle = emptyState?.querySelector("h6");
+  const adminUserSearchInput = document.getElementById("adminUserSearchInput");
+  const adminUserSearchClear = document.getElementById("adminUserSearchClear");
+  const adminUserSearchMeta = document.getElementById("adminUserSearchMeta");
+  const adminUserSearchWrap = adminUserSearchInput?.closest(".places-search-wrap");
   const addUserForm = document.getElementById("addUserForm");
   const editUserForm = document.getElementById("editUserForm");
   const addUserModalEl = document.getElementById("addUserModal");
@@ -21,6 +26,8 @@ document.addEventListener("DOMContentLoaded", async () => {
 
   let currentUsers = [];
   let editingRowIndex = null;
+  let latestUsersRequestId = 0;
+  let searchDebounceTimer = null;
 
   function getRole(user) {
     return String(user?.role || "").trim().toLowerCase();
@@ -87,8 +94,45 @@ document.addEventListener("DOMContentLoaded", async () => {
     return [...users].sort((a, b) => Number(a?.id ?? 0) - Number(b?.id ?? 0));
   }
 
-  async function fetchUsers() {
-    const response = await fetch(`${auth.API_BASE_URL}/api/admin/user`, {
+  function setSearchMeta(searchTerm, count) {
+    if (!adminUserSearchMeta) return;
+    const normalizedSearch = String(searchTerm || "").trim();
+    const normalizedCount = Math.max(0, Number(count) || 0);
+    if (!normalizedSearch) {
+      adminUserSearchMeta.textContent = "";
+      adminUserSearchMeta.classList.remove("is-visible");
+      return;
+    }
+    adminUserSearchMeta.textContent = `${normalizedCount} result${
+      normalizedCount === 1 ? "" : "s"
+    } for "${normalizedSearch}"`;
+    adminUserSearchMeta.classList.add("is-visible");
+  }
+
+  function syncSearchControls(value = "") {
+    const hasValue = String(value || "").trim().length > 0;
+    if (adminUserSearchClear) {
+      adminUserSearchClear.disabled = !hasValue;
+    }
+    if (adminUserSearchWrap) {
+      adminUserSearchWrap.classList.toggle("has-value", hasValue);
+    }
+  }
+
+  function setEmptyStateForSearch(searchTerm = "") {
+    const normalizedSearch = String(searchTerm || "").trim();
+    if (!emptyStateTitle) return;
+    emptyStateTitle.textContent = normalizedSearch
+      ? "No matching users found"
+      : "No users found";
+  }
+
+  async function fetchUsers(searchTerm = "") {
+    const normalizedSearch = String(searchTerm || "").trim();
+    const endpoint = normalizedSearch
+      ? `${auth.API_BASE_URL}/api/admin/user/search?search=${encodeURIComponent(normalizedSearch)}`
+      : `${auth.API_BASE_URL}/api/admin/user`;
+    const response = await fetch(endpoint, {
       headers: auth.getAuthHeaders(),
     });
     if (!response.ok) throw new Error(`Failed to fetch users (${response.status})`);
@@ -243,15 +287,22 @@ document.addEventListener("DOMContentLoaded", async () => {
       .join("");
   }
 
-  async function loadAndRenderUsers() {
+  async function loadAndRenderUsers(searchTerm = "") {
+    const requestId = ++latestUsersRequestId;
+    const normalizedSearch = String(searchTerm || "").trim();
+
     try {
-      const users = await fetchUsers();
+      const users = await fetchUsers(normalizedSearch);
+      if (requestId !== latestUsersRequestId) return;
       currentUsers = sortUsersByIdAsc(users);
+      setSearchMeta(normalizedSearch, currentUsers.length);
+      setEmptyStateForSearch(normalizedSearch);
       loadingState.classList.add("d-none");
       errorState.classList.add("d-none");
       dataState.classList.remove("d-none");
       renderUserCards(currentUsers);
     } catch (error) {
+      if (requestId !== latestUsersRequestId) return;
       loadingState.classList.add("d-none");
       dataState.classList.add("d-none");
       errorState.classList.remove("d-none");
@@ -337,7 +388,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 
       addUserForm.reset();
       addUserModal?.hide();
-      await loadAndRenderUsers();
+      await loadAndRenderUsers(adminUserSearchInput?.value || "");
     });
   }
 
@@ -371,17 +422,46 @@ document.addEventListener("DOMContentLoaded", async () => {
         return;
       }
 
-      currentUsers[editingRowIndex] = {
-        ...currentUsers[editingRowIndex],
-        ...payload,
-      };
-      currentUsers = sortUsersByIdAsc(currentUsers);
-      renderUserCards(currentUsers);
       editUserModal?.hide();
       editingRowIndex = null;
+      await loadAndRenderUsers(adminUserSearchInput?.value || "");
     });
   }
 
+  adminUserSearchInput?.addEventListener("input", () => {
+    syncSearchControls(adminUserSearchInput.value || "");
+    if (searchDebounceTimer) {
+      clearTimeout(searchDebounceTimer);
+    }
+    searchDebounceTimer = setTimeout(() => {
+      loadAndRenderUsers(adminUserSearchInput.value || "");
+    }, 300);
+  });
+
+  adminUserSearchInput?.addEventListener("keydown", (event) => {
+    if (event.key !== "Enter") return;
+    event.preventDefault();
+    if (searchDebounceTimer) {
+      clearTimeout(searchDebounceTimer);
+      searchDebounceTimer = null;
+    }
+    loadAndRenderUsers(adminUserSearchInput.value || "");
+  });
+
+  adminUserSearchClear?.addEventListener("click", () => {
+    if (searchDebounceTimer) {
+      clearTimeout(searchDebounceTimer);
+      searchDebounceTimer = null;
+    }
+    if (adminUserSearchInput) {
+      adminUserSearchInput.value = "";
+      adminUserSearchInput.focus();
+    }
+    syncSearchControls("");
+    loadAndRenderUsers("");
+  });
+
+  syncSearchControls(adminUserSearchInput?.value || "");
   await loadAndRenderUsers();
 });
 

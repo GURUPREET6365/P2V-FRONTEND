@@ -57,6 +57,25 @@
                 Add User
               </button>
             </div>
+
+            <div class="places-search-wrap mt-3 mb-0">
+              <div class="input-group places-search-group">
+                <span class="input-group-text">
+                  <i class="fa-solid fa-magnifying-glass"></i>
+                </span>
+                <input
+                  id="adminUserSearchInput"
+                  type="search"
+                  class="form-control"
+                  placeholder="Search users by name, email, or role"
+                  aria-label="Search admin users"
+                />
+                <button id="adminUserSearchClear" class="btn btn-outline-light" type="button">
+                  Clear
+                </button>
+              </div>
+              <p id="adminUserSearchMeta" class="places-search-meta mb-0"></p>
+            </div>
           </div>
 
           <div id="emptyState" class="state-card text-center d-none">

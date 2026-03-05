@@ -57,6 +57,25 @@
                 Add Place
               </button>
             </div>
+
+            <div class="places-search-wrap mt-3 mb-0">
+              <div class="input-group places-search-group">
+                <span class="input-group-text">
+                  <i class="fa-solid fa-magnifying-glass"></i>
+                </span>
+                <input
+                  id="adminPlaceSearchInput"
+                  type="search"
+                  class="form-control"
+                  placeholder="Search places by name, address, or pincode"
+                  aria-label="Search admin places"
+                />
+                <button id="adminPlaceSearchClear" class="btn btn-outline-light" type="button">
+                  Clear
+                </button>
+              </div>
+              <p id="adminPlaceSearchMeta" class="places-search-meta mb-0"></p>
+            </div>
           </div>
 
           <div id="emptyState" class="state-card text-center d-none">

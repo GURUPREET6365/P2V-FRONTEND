@@ -178,6 +178,84 @@ body {
   margin-bottom: 20px;
 }
 
+.places-search-wrap {
+  margin-bottom: 20px;
+  padding: 10px;
+  border-radius: 16px;
+  background: linear-gradient(
+    145deg,
+    rgba(15, 23, 42, 0.7),
+    rgba(15, 23, 42, 0.35)
+  );
+  border: 1px solid rgba(148, 163, 184, 0.16);
+  backdrop-filter: blur(8px);
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.places-search-wrap:focus-within {
+  border-color: rgba(96, 165, 250, 0.65);
+  box-shadow: 0 10px 24px rgba(2, 6, 23, 0.42);
+}
+
+.places-search-group .input-group-text {
+  background: rgba(2, 6, 23, 0.42);
+  border-color: rgba(148, 163, 184, 0.24);
+  color: #bfdbfe;
+  border-radius: 12px 0 0 12px;
+}
+
+.places-search-group .form-control {
+  background: rgba(2, 6, 23, 0.42);
+  border-color: rgba(148, 163, 184, 0.24);
+  color: #e5e7eb;
+  min-height: 46px;
+}
+
+.places-search-group .form-control::placeholder {
+  color: #9fb0c8;
+}
+
+.places-search-group .form-control:focus {
+  background: rgba(2, 6, 23, 0.56);
+  border-color: rgba(96, 165, 250, 0.78);
+  color: #fff;
+  box-shadow: inset 0 0 0 1px rgba(96, 165, 250, 0.3);
+}
+
+.places-search-group .btn {
+  border-color: rgba(148, 163, 184, 0.24);
+  background: rgba(30, 41, 59, 0.56);
+  color: #dbeafe;
+  border-radius: 0 12px 12px 0;
+  min-width: 80px;
+}
+
+.places-search-group .btn:hover:not(:disabled) {
+  background: rgba(37, 99, 235, 0.32);
+  border-color: rgba(96, 165, 250, 0.65);
+  color: #eff6ff;
+}
+
+.places-search-group .btn:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+.places-search-wrap.has-value .places-search-group .input-group-text {
+  color: #60a5fa;
+}
+
+.places-search-meta {
+  display: none;
+  margin-top: 10px;
+  font-size: 0.82rem;
+  color: #93a9c7;
+}
+
+.places-search-meta.is-visible {
+  display: block;
+}
+
 /* ----------- STATES ----------- */
 
 .state-card {
