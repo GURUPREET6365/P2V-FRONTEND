@@ -7,6 +7,7 @@ document.addEventListener("DOMContentLoaded", async () => {
   const placeNameEl = document.getElementById("placeName");
   const placeNotesEl = document.getElementById("placeNotes");
   const categoryRatingsEl = document.getElementById("categoryRatings");
+  const totalUserRatedText = document.getElementById("totalUserRatedText");
   const likeBtn = document.getElementById("likeBtn");
   const dislikeBtn = document.getElementById("dislikeBtn");
   const rateBtn = document.getElementById("rateBtn");
@@ -247,8 +248,10 @@ document.addEventListener("DOMContentLoaded", async () => {
       .map((field) => {
         const value = toFiniteNumber(ratings[field.key], 0);
         const isValid = value >= 1 && value <= 5;
+        const formattedValue = Number(value).toFixed(1);
+        const roundedStars = Math.max(1, Math.min(5, Math.round(value)));
         const stars = isValid
-          ? `<span class="category-rating-stars">${"★".repeat(value)}${"☆".repeat(5 - value)}</span> (${value}/5)`
+          ? `<span class="category-rating-stars">${"★".repeat(roundedStars)}${"☆".repeat(5 - roundedStars)}</span> (${formattedValue}/5)`
           : "Not rated";
         return `
           <article class="category-rating-item">
@@ -258,6 +261,20 @@ document.addEventListener("DOMContentLoaded", async () => {
         `;
       })
       .join("");
+  }
+
+  function renderTotalUserRated(place) {
+    if (!totalUserRatedText) return;
+    const total = Math.max(
+      0,
+      toFiniteNumber(
+        place?.total_user_rated ??
+          place?.totalUserRated ??
+          place?.totalUsersRated,
+        0,
+      ),
+    );
+    totalUserRatedText.textContent = `${total} user${total === 1 ? "" : "s"} rated`;
   }
 
   function setRatingFeedback(message, tone = "error") {
@@ -436,6 +453,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     };
     syncVoteButtons();
     syncRateButtonAppearance();
+    renderTotalUserRated(place);
     renderCategoryRatings(detailUserRatingState.ratings);
 
     const rows = flattenEntries(place).filter(([field]) => !shouldSkipField(field));
