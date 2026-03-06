@@ -1,6 +1,6 @@
-# P2V Frontend
+# PlaceExplorer Frontend
 
-Frontend application for P2V (Place to Visit), built with vanilla HTML/CSS/JavaScript and Bootstrap.
+Frontend application for PlaceExplorer, built with vanilla HTML/CSS/JavaScript and Bootstrap.
 
 This project provides:
 - Public and authenticated place browsing
@@ -20,7 +20,7 @@ This project provides:
 ## 2. Project Structure
 
 ```text
-P2V-FRONTEND/
+PlaceExplorer-FRONTEND/
 ├── css/
 │   ├── index.css
 │   ├── auth.css
@@ -67,7 +67,7 @@ Serve this folder with any static server.
 Example (Python):
 
 ```bash
-cd P2V-FRONTEND
+cd PlaceExplorer-FRONTEND
 python -m http.server 5500
 ```
 
@@ -182,3 +182,4 @@ Access:
 - Add integration tests for rating/vote flows
 - Add typed API layer for stronger frontend-backend contracts
 - Add pagination and filtering for large place datasets
+

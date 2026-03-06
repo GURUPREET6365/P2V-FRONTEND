@@ -9,7 +9,7 @@ document.addEventListener("DOMContentLoaded", () => {
     navRoot.innerHTML = `
       <nav class="navbar navbar-expand-lg navbar-pro sticky-top">
         <div class="container">
-          <a class="navbar-brand brand" href="index.html">P2V</a>
+          <a class="navbar-brand brand" href="index.html">PlaceExplorer</a>
 
           <button
             class="navbar-toggler border-0 nav-toggle"
@@ -56,7 +56,7 @@ document.addEventListener("DOMContentLoaded", () => {
         <div class="container">
           <div class="row g-4">
             <div class="col-md-4">
-              <h6>P2V</h6>
+              <h6>PlaceExplorer</h6>
               <p>
                 A clean travel platform where curated places are shared with
                 practical details and less noise.
@@ -83,7 +83,7 @@ document.addEventListener("DOMContentLoaded", () => {
             </div>
 
             <div class="col-md-4">
-              <h6>Why P2V</h6>
+              <h6>Why PlaceExplorer</h6>
               <p class="small-muted mb-2">Curated places, faster decisions.</p>
               <p class="small-muted mb-0">
                 Updated weekly with practical location insights.
@@ -94,7 +94,7 @@ document.addEventListener("DOMContentLoaded", () => {
           <hr />
 
           <div class="footer-bottom">
-            <span>© 2026 P2V</span>
+            <span>© 2026 PlaceExplorer</span>
             <div class="socials">
               <a
                 href="https://github.com/GURUPREET6365"
@@ -147,3 +147,4 @@ document.addEventListener("DOMContentLoaded", () => {
   syncNavbarAuthState();
   window.addEventListener("p2v:auth-changed", syncNavbarAuthState);
 });
+

@@ -38,7 +38,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 
     const fullName =
       `${userData.first_name || ""} ${userData.last_name || ""}`.trim() ||
-      "P2V Explorer";
+      "PlaceExplorer User";
 
     document.getElementById("userName").innerText = fullName;
     document.getElementById("userEmail").innerText = userData.email || "N/A";
@@ -96,3 +96,4 @@ document.addEventListener("DOMContentLoaded", async () => {
     }, 900);
   }
 });
+
