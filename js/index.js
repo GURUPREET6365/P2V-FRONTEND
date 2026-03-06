@@ -6,14 +6,17 @@ document.addEventListener("DOMContentLoaded", async () => {
   const homeTopPlacesEmpty = document.getElementById("homeTopPlacesEmpty");
   const homeTopPlacesGrid = document.getElementById("homeTopPlacesGrid");
   const auth = window.AuthManager;
+  let isAuthenticated = false;
 
   async function initAuth() {
     if (!auth?.hasValidSession()) {
+      isAuthenticated = false;
       updateUI(null);
       return null;
     }
 
     const userData = await auth.verifySession();
+    isAuthenticated = Boolean(userData);
     updateUI(userData);
     return userData;
   }
@@ -81,6 +84,17 @@ document.addEventListener("DOMContentLoaded", async () => {
     return Math.max(0, toFiniteNumber(place?.total_user_rated, 0));
   }
 
+  function getPlaceId(place) {
+    return (
+      place?.id ??
+      place?.place_id ??
+      place?.placeId ??
+      place?.pk ??
+      place?._id ??
+      null
+    );
+  }
+
   function sortTopPlaces(places) {
     return [...places].sort((a, b) => {
       const byRating = getOverallRating(b) - getOverallRating(a);
@@ -126,9 +140,19 @@ document.addEventListener("DOMContentLoaded", async () => {
       .map((place) => {
         const overall = getOverallRating(place);
         const totalUserRated = getTotalRated(place);
+        const placeId = getPlaceId(place);
+        const targetHref =
+          isAuthenticated && placeId !== null && placeId !== undefined && placeId !== ""
+            ? `place_details.html?id=${encodeURIComponent(placeId)}`
+            : "places.html";
         return `
           <div class="col-12 col-md-6 col-xl-4">
-            <article class="place-card reel-card">
+            <article
+              class="place-card reel-card place-card-clickable"
+              data-target-href="${escapeHtml(targetHref)}"
+              role="link"
+              tabindex="0"
+            >
               <div class="place-cover">
                 <div class="place-cover-overlay">
                   <span class="place-chip">#${escapeHtml(place?.pincode ?? "-")}</span>
@@ -156,6 +180,13 @@ document.addEventListener("DOMContentLoaded", async () => {
       .join("");
   }
 
+  function navigateFromCard(card) {
+    if (!card) return;
+    const targetHref = card.dataset.targetHref;
+    if (!targetHref) return;
+    window.location.href = targetHref;
+  }
+
   async function loadTopPlaces() {
     if (!homeTopPlacesLoading || !homeTopPlacesError || !homeTopPlacesEmpty || !homeTopPlacesGrid) return;
     try {
@@ -181,6 +212,20 @@ document.addEventListener("DOMContentLoaded", async () => {
       homeTopPlacesError.classList.remove("d-none");
     }
   }
+
+  homeTopPlacesGrid?.addEventListener("click", (event) => {
+    const card = event.target.closest(".place-card-clickable[data-target-href]");
+    if (!card) return;
+    navigateFromCard(card);
+  });
+
+  homeTopPlacesGrid?.addEventListener("keydown", (event) => {
+    if (event.key !== "Enter" && event.key !== " ") return;
+    const card = event.target.closest(".place-card-clickable[data-target-href]");
+    if (!card) return;
+    event.preventDefault();
+    navigateFromCard(card);
+  });
 
   await initAuth();
   await loadTopPlaces();
