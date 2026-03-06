@@ -187,3 +187,70 @@
     text-align: left;
   }
 }
+
+/* ----------- LIGHT THEME OVERRIDES ----------- */
+
+.about-tab-nav .nav-link {
+  border: 1px solid rgba(148, 163, 184, 0.32);
+  color: #334155;
+  background: #ffffff;
+}
+
+.about-tab-nav .nav-link:hover {
+  color: #0f172a;
+}
+
+.about-tab-content {
+  border-top: 1px solid rgba(148, 163, 184, 0.3);
+}
+
+.about-tab-content p,
+.about-list,
+.feedback-shell .form-check-label,
+.about-card p {
+  color: #475569;
+}
+
+.about-lead {
+  color: #334155;
+}
+
+.about-chip {
+  color: #1e3a8a;
+  background: #eaf2ff;
+  border: 1px solid rgba(59, 130, 246, 0.3);
+}
+
+.about-card {
+  background: #ffffff;
+  border: 1px solid rgba(148, 163, 184, 0.3);
+  box-shadow: 0 10px 22px rgba(148, 163, 184, 0.14);
+}
+
+.about-card h3,
+.about-section h3 {
+  color: #0f172a;
+}
+
+.feedback-shell .form-label {
+  color: #334155;
+}
+
+.feedback-shell .form-control {
+  background: #ffffff;
+  border: 1px solid rgba(148, 163, 184, 0.34);
+  color: #0f172a;
+}
+
+.feedback-shell .form-control:focus {
+  background: #ffffff;
+  color: #0f172a;
+}
+
+.feedback-form-message.is-success {
+  color: #047857;
+}
+
+.feedback-form-message.is-error {
+  color: #b91c1c;
+}

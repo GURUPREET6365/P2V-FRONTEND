@@ -971,3 +971,230 @@ body {
     display: none !important;
   }
 }
+
+/* ----------- LIGHT THEME OVERRIDES ----------- */
+
+body {
+  background: linear-gradient(180deg, #f6f9ff 0%, #eef4ff 55%, #f9fbff 100%);
+  color: #0f172a;
+}
+
+.brand,
+.brand:hover {
+  color: #0f172a;
+}
+
+.navbar-pro {
+  background: rgba(255, 255, 255, 0.86);
+  border-bottom: 1px solid rgba(15, 23, 42, 0.1);
+  box-shadow: 0 10px 22px rgba(148, 163, 184, 0.2);
+}
+
+.nav-pro .nav-link {
+  color: #475569;
+}
+
+.nav-pro .nav-link:hover,
+.nav-pro .nav-link.active {
+  color: #0f172a;
+}
+
+.profile-icon {
+  background: rgba(59, 130, 246, 0.12);
+  color: #1d4ed8;
+}
+
+.profile-icon:hover {
+  background: rgba(59, 130, 246, 0.2);
+}
+
+.nav-toggle {
+  color: #0f172a;
+}
+
+.hero-sub,
+.state-card p,
+.about-copy,
+.footer-pro p,
+.footer-pro a,
+.footer-bottom {
+  color: #475569;
+}
+
+.cta-secondary {
+  border: 1px solid rgba(37, 99, 235, 0.3);
+  color: #1d4ed8;
+}
+
+.cta-secondary:hover {
+  background: rgba(59, 130, 246, 0.12);
+  color: #1e3a8a;
+}
+
+.section-head h2 {
+  color: #334155;
+}
+
+.places-search-wrap {
+  background: linear-gradient(145deg, #ffffff, #f8fbff);
+  border: 1px solid rgba(148, 163, 184, 0.28);
+  box-shadow: 0 10px 24px rgba(148, 163, 184, 0.16);
+}
+
+.places-search-group .input-group-text,
+.places-search-group .form-control {
+  background: #ffffff;
+  border-color: rgba(148, 163, 184, 0.35);
+  color: #0f172a;
+}
+
+.places-search-group .form-control::placeholder {
+  color: #64748b;
+}
+
+.places-search-group .form-control:focus {
+  background: #ffffff;
+  color: #0f172a;
+}
+
+.places-search-group .btn {
+  background: #eff6ff;
+  border-color: rgba(148, 163, 184, 0.35);
+  color: #1e3a8a;
+}
+
+.places-search-meta {
+  color: #475569;
+}
+
+.state-card {
+  background: rgba(255, 255, 255, 0.82);
+  border: 1px solid rgba(148, 163, 184, 0.24);
+  box-shadow: 0 10px 24px rgba(148, 163, 184, 0.14);
+}
+
+.footer-pro {
+  background: #f1f5ff;
+  border-top: 1px solid rgba(148, 163, 184, 0.25);
+}
+
+.footer-pro a:hover {
+  color: #1d4ed8;
+}
+
+.feedback-gateway {
+  box-shadow: 0 10px 24px rgba(37, 99, 235, 0.28);
+}
+
+@media (max-width: 991.98px) {
+  .nav-panel {
+    background: rgba(255, 255, 255, 0.95);
+    border: 1px solid rgba(148, 163, 184, 0.24);
+    box-shadow: 0 12px 24px rgba(148, 163, 184, 0.2);
+  }
+
+  .nav-pro .nav-link.active,
+  .nav-pro .nav-link:hover {
+    background: rgba(59, 130, 246, 0.14);
+  }
+}
+
+.place-card {
+  background: #ffffff;
+  border: 1px solid rgba(148, 163, 184, 0.28);
+  box-shadow: 0 10px 24px rgba(148, 163, 184, 0.14);
+}
+
+.place-card:hover {
+  box-shadow: 0 16px 30px rgba(59, 130, 246, 0.2);
+}
+
+.place-cover {
+  background: radial-gradient(circle at 15% 22%, rgba(96, 165, 250, 0.35), transparent 45%),
+    radial-gradient(circle at 80% 20%, rgba(14, 165, 233, 0.22), transparent 40%),
+    linear-gradient(145deg, #e8f1ff 0%, #dbeafe 100%);
+}
+
+.place-chip {
+  background: rgba(255, 255, 255, 0.85);
+  border: 1px solid rgba(148, 163, 184, 0.35);
+  color: #1e3a8a;
+}
+
+.place-chip.soft {
+  background: #eff6ff;
+  color: #1d4ed8;
+}
+
+.place-meta,
+.place-open-hint {
+  color: #2563eb;
+}
+
+.place-desc,
+.place-footer,
+.rating-users,
+.place-actions-note {
+  color: #475569;
+}
+
+.rating-badge {
+  background: #fef3c7;
+  border: 1px solid #fcd34d;
+  color: #92400e;
+}
+
+.place-actions,
+.place-rating-shell {
+  border-top: 1px solid rgba(148, 163, 184, 0.24);
+}
+
+.vote-btn,
+.place-rate-btn {
+  background: #f8fafc;
+  border: 1px solid rgba(148, 163, 184, 0.35);
+  color: #334155;
+}
+
+.vote-count {
+  color: #64748b;
+}
+
+.vote-btn:hover,
+.place-rate-btn:hover {
+  color: #0f172a;
+}
+
+.rating-row {
+  background: #f8fbff;
+  border: 1px solid rgba(148, 163, 184, 0.3);
+}
+
+.rating-row legend,
+.rating-message-wrap .form-label {
+  color: #334155;
+}
+
+.rating-example {
+  color: #64748b;
+}
+
+.rating-star-label {
+  color: #94a3b8;
+}
+
+.rating-message-input {
+  background: #ffffff;
+  border: 1px solid rgba(148, 163, 184, 0.35);
+  color: #0f172a;
+}
+
+.rating-message-input:focus {
+  background: #ffffff;
+  color: #0f172a;
+}
+
+.place-locked {
+  background: #eaf2ff;
+  color: #475569;
+}

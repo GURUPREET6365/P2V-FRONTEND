@@ -96,3 +96,35 @@
     padding: 12px;
   }
 }
+
+/* ----------- LIGHT THEME OVERRIDES ----------- */
+
+.place-details-card {
+  background: linear-gradient(165deg, #ffffff, #f8fbff);
+  border: 1px solid rgba(148, 163, 184, 0.3);
+  box-shadow: 0 10px 24px rgba(148, 163, 184, 0.16);
+}
+
+.notes-shell {
+  border-top: 1px solid rgba(148, 163, 184, 0.3);
+}
+
+.notes-title {
+  color: #0f172a;
+}
+
+.note-item,
+.category-rating-item {
+  background: #ffffff;
+  border: 1px solid rgba(148, 163, 184, 0.3);
+}
+
+.note-label,
+.category-rating-label {
+  color: #1d4ed8;
+}
+
+.note-value,
+.category-rating-value {
+  color: #334155;
+}

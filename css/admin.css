@@ -245,3 +245,55 @@
     padding: 12px;
   }
 }
+
+/* ----------- LIGHT THEME OVERRIDES ----------- */
+
+.admin-model-table th,
+.admin-data-table th,
+.admin-place-label {
+  color: #1d4ed8;
+}
+
+.admin-model-table td,
+.admin-data-table td,
+.admin-place-title,
+.admin-place-value,
+.admin-place-id {
+  color: #0f172a;
+}
+
+.admin-model-table tr:not(:last-child) td,
+.admin-data-table tr:not(:last-child) td,
+.admin-place-details,
+.admin-place-field {
+  border-color: rgba(148, 163, 184, 0.32);
+}
+
+.admin-place-card {
+  background: #ffffff;
+  border: 1px solid rgba(148, 163, 184, 0.3);
+  box-shadow: 0 10px 24px rgba(148, 163, 184, 0.15);
+}
+
+.admin-place-edit-btn,
+.admin-edit-btn {
+  border: 1px solid rgba(59, 130, 246, 0.44);
+  background: linear-gradient(145deg, rgba(59, 130, 246, 0.14), rgba(30, 64, 175, 0.08));
+  color: #1d4ed8;
+  box-shadow: 0 8px 18px rgba(148, 163, 184, 0.18);
+}
+
+.admin-place-edit-btn:hover,
+.admin-edit-btn:hover {
+  color: #1e3a8a;
+}
+
+.admin-delete-btn {
+  background: rgba(254, 226, 226, 0.75);
+  color: #b91c1c;
+}
+
+.admin-delete-btn:hover {
+  color: #991b1b;
+  background: rgba(254, 202, 202, 0.82);
+}

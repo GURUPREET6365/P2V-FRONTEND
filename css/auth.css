@@ -179,3 +179,65 @@
     padding: 30px 20px;
   }
 }
+
+/* ----------- LIGHT THEME OVERRIDES ----------- */
+
+.brand,
+.brand:hover {
+  color: #0f172a;
+}
+
+.auth-sub,
+.settings-muted,
+.auth-back {
+  color: #475569;
+}
+
+.auth-divider::before,
+.settings-list,
+.settings-item {
+  border-color: rgba(148, 163, 184, 0.28);
+}
+
+.auth-divider span {
+  background: #ffffff;
+  color: #64748b;
+}
+
+.auth-label {
+  color: #334155;
+}
+
+.auth-input,
+.auth-addon {
+  background: #ffffff;
+  border-color: rgba(148, 163, 184, 0.35);
+  color: #0f172a;
+}
+
+.auth-input::placeholder {
+  color: #94a3b8;
+}
+
+.auth-input:focus {
+  background: #ffffff;
+  color: #0f172a;
+}
+
+.auth-addon i {
+  color: #64748b;
+}
+
+.auth-back:hover {
+  color: #1d4ed8;
+}
+
+.settings-badge {
+  border: 1px solid rgba(5, 150, 105, 0.35);
+  background: rgba(16, 185, 129, 0.14);
+  color: #047857;
+}
+
+.danger-btn:hover {
+  color: #b91c1c;
+}
