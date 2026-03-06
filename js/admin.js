@@ -22,6 +22,12 @@ document.addEventListener("DOMContentLoaded", async () => {
         desc: "Manage all places",
         href: "admin_places.html",
       },
+      {
+        app: "Support",
+        model: "Feedback",
+        desc: "View submitted feedback",
+        href: "admin_feedback.html",
+      },
     ];
 
     const adminOnlyRows = [

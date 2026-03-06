@@ -3,7 +3,34 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>P2V - Home</title>
+    <title>P2V | Discover Trusted Places to Visit</title>
+    <meta
+      name="description"
+      content="Discover trusted places with practical details, community ratings, and real user feedback on P2V."
+    />
+    <meta
+      name="keywords"
+      content="P2V, places to visit, travel discovery, place ratings, community reviews"
+    />
+    <meta name="author" content="P2V" />
+    <meta name="robots" content="index,follow,max-image-preview:large" />
+    <meta name="theme-color" content="#0b0f14" />
+    <meta name="referrer" content="strict-origin-when-cross-origin" />
+    <link rel="canonical" href="/index.html" />
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="P2V" />
+    <meta property="og:title" content="P2V | Discover Trusted Places to Visit" />
+    <meta
+      property="og:description"
+      content="Explore curated places, compare quality signals, and decide faster with community-powered ratings."
+    />
+    <meta property="og:url" content="/index.html" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="P2V | Discover Trusted Places to Visit" />
+    <meta
+      name="twitter:description"
+      content="Explore curated places with practical details and trusted community ratings on P2V."
+    />
 
     <link
       href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
@@ -22,34 +49,50 @@
 
     <header class="hero" id="home">
       <div class="container text-center">
-        <h1 class="hero-title">Hey, I am <span>building P2V</span></h1>
+        <h1 class="hero-title">Discover <span>Top Places</span> Faster</h1>
 
         <p class="hero-sub">
-          A focused platform where I share travel-worthy places and practical
-          details that help you decide quickly.
+          Explore trusted places with practical details, ratings, and
+          community feedback in one clean experience.
         </p>
 
-        <a href="login.html" id="ctaButton" class="cta-primary me-2">
-          Get Started
-        </a>
-        <a href="places.html" class="cta-primary cta-secondary">
-          View Places
-        </a>
+        <div class="hero-cta-group">
+          <a href="login.html" id="ctaButton" class="cta-primary">
+            Get Started
+          </a>
+          <a href="places.html" class="cta-primary cta-secondary">
+            View Places
+          </a>
+        </div>
       </div>
     </header>
 
-    <section class="container section-block" id="about">
-      <div class="section-head">
-        <h2>About Me</h2>
+    <section class="container section-block">
+      <div class="section-head d-flex align-items-center justify-content-between gap-3 flex-wrap">
+        <h2 class="mb-0">Top Places Right Now</h2>
       </div>
 
-      <div class="state-card about-card">
-        <h3 class="mb-3">Why I made this</h3>
-        <p class="about-copy mb-0">
-          I built P2V to reduce noise while planning trips. Instead of scrolling
-          through random posts, you get selected places with clear summaries,
-          pin code, address context, and dates in one clean view.
-        </p>
+      <div id="homeTopPlacesLoading" class="state-card text-center">
+        <div class="spinner-border text-primary mb-3" role="status"></div>
+        <p>Loading top places...</p>
+      </div>
+
+      <div id="homeTopPlacesError" class="state-card error text-center d-none">
+        <i class="fa-solid fa-circle-exclamation"></i>
+        <h6 class="mt-2 mb-1">Unable to load top places</h6>
+        <p class="mb-0">Please try again from the Places page.</p>
+      </div>
+
+      <div id="homeTopPlacesEmpty" class="state-card text-center d-none">
+        <i class="fa-regular fa-folder-open"></i>
+        <h6 class="mt-2 mb-1">No places found</h6>
+        <p class="mb-0">Visit the Places page to explore all records.</p>
+      </div>
+
+      <div class="row g-4 d-none" id="homeTopPlacesGrid"></div>
+
+      <div class="text-center mt-4">
+        <a href="places.html" class="cta-primary">View More Places</a>
       </div>
     </section>
 

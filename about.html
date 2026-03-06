@@ -3,7 +3,34 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>P2V - About</title>
+    <title>About P2V | Platform, Privacy, and Terms</title>
+    <meta
+      name="description"
+      content="Learn how P2V helps users discover trusted places, and review our privacy commitments and usage standards."
+    />
+    <meta
+      name="keywords"
+      content="about P2V, P2V privacy policy, P2V terms, travel platform"
+    />
+    <meta name="author" content="P2V" />
+    <meta name="robots" content="index,follow,max-image-preview:large" />
+    <meta name="theme-color" content="#0b0f14" />
+    <meta name="referrer" content="strict-origin-when-cross-origin" />
+    <link rel="canonical" href="/about.html" />
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="P2V" />
+    <meta property="og:title" content="About P2V | Platform, Privacy, and Terms" />
+    <meta
+      property="og:description"
+      content="Understand P2V's mission, trust standards, privacy model, and platform terms."
+    />
+    <meta property="og:url" content="/about.html" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="About P2V | Platform, Privacy, and Terms" />
+    <meta
+      name="twitter:description"
+      content="Read about P2V's platform approach, privacy commitments, and terms."
+    />
 
     <link
       href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
@@ -86,16 +113,59 @@
             tabindex="0"
           >
             <h2>About Us</h2>
-            <p>
-              P2V (Place to Visit) is a focused travel platform built to make
-              place discovery practical and fast. We highlight useful place
-              details like name, address, pin code, description, and timestamps
-              so users can make quick decisions.
+            <p class="about-lead">
+              P2V (Place to Visit) helps people discover trusted places faster.
+              Instead of endless scrolling and low-signal recommendations, P2V
+              focuses on structured place data, community ratings, and clear
+              decision support.
             </p>
-            <p>
-              Our goal is to reduce noise and improve clarity for travelers by
-              presenting concise, useful information in a clean interface.
-            </p>
+
+            <div class="about-chip-row">
+              <span class="about-chip"><i class="fa-solid fa-location-dot"></i> Verified place details</span>
+              <span class="about-chip"><i class="fa-solid fa-star"></i> Multi-category ratings</span>
+              <span class="about-chip"><i class="fa-solid fa-thumbs-up"></i> Community voting</span>
+            </div>
+
+            <div class="about-grid mt-3">
+              <article class="about-card">
+                <h3>Practical Discovery</h3>
+                <p>
+                  See essential information at a glance: place name, address,
+                  pincode, timestamp, and contextual details that help users
+                  decide quickly.
+                </p>
+              </article>
+              <article class="about-card">
+                <h3>Quality Signals</h3>
+                <p>
+                  P2V ranks places using rating quality, user engagement, and
+                  community feedback to surface useful places first.
+                </p>
+              </article>
+              <article class="about-card">
+                <h3>Focused Experience</h3>
+                <p>
+                  The interface is intentionally simple and distraction-free,
+                  reducing noise so users can spend more time exploring and less
+                  time searching.
+                </p>
+              </article>
+            </div>
+
+            <section class="about-section">
+              <h3>Why Users Stay on P2V</h3>
+              <ul class="about-list">
+                <li>Clear ranking based on meaningful travel indicators.</li>
+                <li>Transparent rating categories beyond a single score.</li>
+                <li>Reliable and fast workflows for browsing, voting, and rating.</li>
+                <li>Consistent UI optimized for both desktop and mobile users.</li>
+              </ul>
+            </section>
+
+            <div class="about-cta-row">
+              <a href="places.html" class="cta-primary">Explore Places</a>
+              <a href="login.html" class="cta-primary cta-secondary">Join P2V</a>
+            </div>
           </article>
 
           <article
@@ -106,17 +176,46 @@
             tabindex="0"
           >
             <h2>Privacy Policy</h2>
-            <p>
-              We use authentication tokens to keep your session secure and to
-              enable personalized actions like voting. Token data is stored in
-              your browser and sent as a bearer token to authenticated API
-              endpoints.
+            <p class="about-lead">
+              Privacy and data protection are core product requirements at P2V.
+              We collect only the minimum information needed to operate account
+              sessions, ratings, and voting securely.
             </p>
-            <p>
-              We do not expose your private account credentials in the
-              frontend. You can log out anytime to remove your session token
-              from local storage.
-            </p>
+
+            <div class="about-grid mt-3">
+              <article class="about-card">
+                <h3>Session Security</h3>
+                <p>
+                  Authentication tokens are used to protect account actions.
+                  Authorized requests are sent using bearer tokens over secured
+                  API routes.
+                </p>
+              </article>
+              <article class="about-card">
+                <h3>Data Minimization</h3>
+                <p>
+                  We avoid collecting unnecessary personal information and use
+                  user data only for core platform functionality.
+                </p>
+              </article>
+              <article class="about-card">
+                <h3>User Control</h3>
+                <p>
+                  Users can sign out at any time, which clears active session
+                  context from the browser.
+                </p>
+              </article>
+            </div>
+
+            <section class="about-section">
+              <h3>Privacy Commitments</h3>
+              <ul class="about-list">
+                <li>Never expose passwords in frontend views.</li>
+                <li>Use access controls for protected actions and endpoints.</li>
+                <li>Limit data sharing to required product operations only.</li>
+                <li>Continuously improve safeguards as platform usage grows.</li>
+              </ul>
+            </section>
           </article>
 
           <article
@@ -127,18 +226,89 @@
             tabindex="0"
           >
             <h2>Terms and Conditions</h2>
-            <p>
-              By using P2V, you agree to use the platform responsibly. You are
-              responsible for activity performed under your authenticated
-              session.
+            <p class="about-lead">
+              By using P2V, you agree to use the platform responsibly and in
+              compliance with applicable laws and community standards.
             </p>
-            <p>
-              Voting features, place submissions, and other interactions may be
-              updated or restricted as the platform evolves. Continued use of
-              the service indicates acceptance of current terms.
-            </p>
+
+            <div class="about-grid mt-3">
+              <article class="about-card">
+                <h3>Account Responsibility</h3>
+                <p>
+                  You are responsible for activity performed through your
+                  authenticated account and for protecting your credentials.
+                </p>
+              </article>
+              <article class="about-card">
+                <h3>Content Integrity</h3>
+                <p>
+                  Users must avoid misleading, abusive, or harmful submissions.
+                  P2V may moderate or remove content that violates policy.
+                </p>
+              </article>
+              <article class="about-card">
+                <h3>Service Evolution</h3>
+                <p>
+                  Features and limits may change over time to maintain quality,
+                  security, and platform reliability.
+                </p>
+              </article>
+            </div>
+
+            <section class="about-section">
+              <h3>Usage Standards</h3>
+              <ul class="about-list">
+                <li>Use ratings and votes fairly and authentically.</li>
+                <li>Do not attempt to disrupt, scrape, or misuse platform APIs.</li>
+                <li>Respect other users and contribute constructive feedback.</li>
+                <li>Continued use indicates acceptance of updated terms.</li>
+              </ul>
+            </section>
           </article>
         </div>
+      </div>
+
+      <div id="feedback" class="state-card feedback-shell mt-4">
+        <div class="d-flex flex-column flex-md-row align-items-md-center justify-content-between gap-2 mb-3">
+          <div>
+            <h2 class="mb-1">Share Feedback</h2>
+            <p class="settings-muted mb-0">
+              Help us improve P2V by sharing your experience.
+            </p>
+          </div>
+        </div>
+
+        <form id="feedbackForm" novalidate>
+          <div class="row g-3">
+            <div class="col-12 col-md-6">
+              <label for="feedbackName" class="form-label">Name</label>
+              <input id="feedbackName" class="form-control" required />
+            </div>
+            <div class="col-12 col-md-6">
+              <label for="feedbackEmail" class="form-label">Email</label>
+              <input id="feedbackEmail" type="email" class="form-control" required />
+            </div>
+            <div class="col-12">
+              <div class="form-check form-switch">
+                <input class="form-check-input" type="checkbox" role="switch" id="feedbackFoundPlace" />
+                <label class="form-check-label" for="feedbackFoundPlace">
+                  I found a place using P2V
+                </label>
+              </div>
+            </div>
+            <div class="col-12">
+              <label for="feedbackMessage" class="form-label">Message</label>
+              <textarea id="feedbackMessage" class="form-control" rows="4" required></textarea>
+            </div>
+          </div>
+
+          <div class="d-flex align-items-center justify-content-between gap-3 mt-3 flex-wrap">
+            <p id="feedbackFormMessage" class="feedback-form-message mb-0" aria-live="polite"></p>
+            <button id="feedbackSubmitBtn" type="submit" class="cta-primary border-0">
+              Submit Feedback
+            </button>
+          </div>
+        </form>
       </div>
     </section>
 

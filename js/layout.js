@@ -2,6 +2,8 @@ document.addEventListener("DOMContentLoaded", () => {
   const navRoot = document.getElementById("appNav");
   const footerRoot = document.getElementById("appFooter");
   const page = document.body.dataset.page || "";
+  const currentFile = (window.location.pathname.split("/").pop() || "").toLowerCase();
+  const isAdminRoute = currentFile.startsWith("admin");
 
   if (navRoot) {
     navRoot.innerHTML = `
@@ -76,6 +78,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 <li><a href="about.html">About Us</a></li>
                 <li><a href="about.html#privacy-policy">Privacy</a></li>
                 <li><a href="about.html#terms-and-conditions">Terms</a></li>
+                ${isAdminRoute ? "" : '<li><a href="about.html#feedback">Feedback</a></li>'}
               </ul>
             </div>
 
@@ -107,6 +110,15 @@ document.addEventListener("DOMContentLoaded", () => {
         </div>
       </footer>
     `;
+  }
+
+  if (!isAdminRoute) {
+    const feedbackGateway = document.createElement("a");
+    feedbackGateway.href = "about.html#feedback";
+    feedbackGateway.className = "feedback-gateway";
+    feedbackGateway.setAttribute("aria-label", "Open feedback form");
+    feedbackGateway.innerHTML = '<i class="fa-regular fa-message"></i> Feedback';
+    document.body.appendChild(feedbackGateway);
   }
 
   async function syncNavbarAuthState() {

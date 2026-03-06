@@ -408,8 +408,18 @@ document.addEventListener("DOMContentLoaded", async () => {
                       </div>
                     `
                     : `
+                      <div class="place-actions">
+                        <div class="vote-btn like" aria-disabled="true">
+                          <i class="fa-regular fa-thumbs-up"></i> Like
+                          <span class="vote-count" data-count-like>${escapeHtml(counts.likes)}</span>
+                        </div>
+                        <div class="vote-btn dislike" aria-disabled="true">
+                          <i class="fa-regular fa-thumbs-down"></i> Dislike
+                          <span class="vote-count" data-count-dislike>${escapeHtml(counts.dislikes)}</span>
+                        </div>
+                      </div>
                       <div class="place-actions-note">
-                        Login to like or dislike this place.
+                        Login to vote or rate this place.
                       </div>
                     `
                 }
