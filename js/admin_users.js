@@ -33,6 +33,10 @@ document.addEventListener("DOMContentLoaded", async () => {
     return String(user?.role || "").trim().toLowerCase();
   }
 
+  function getUserId(user) {
+    return user?.id ?? user?.user_id ?? user?.userId ?? null;
+  }
+
   function serializeValue(value) {
     if (value === null || value === undefined) return "-";
     if (typeof value === "object") return JSON.stringify(value);
@@ -167,27 +171,25 @@ document.addEventListener("DOMContentLoaded", async () => {
   }
 
   async function requestUpdateUser(userId, payload) {
-    const endpoints = [
-      `${auth.API_BASE_URL}/api/user/update/${encodeURIComponent(userId)}`,
-      `${auth.API_BASE_URL}/api/admin/user/update/${encodeURIComponent(userId)}`,
-      `${auth.API_BASE_URL}/api/admin/user/${encodeURIComponent(userId)}`,
-    ];
+    const endpoint = `${auth.API_BASE_URL}/api/user/update/${encodeURIComponent(userId)}`;
+    const token = auth?.getToken?.();
 
-    for (const endpoint of endpoints) {
-      for (const method of ["PUT", "POST", "PATCH"]) {
-        try {
-          const response = await fetch(endpoint, {
-            method,
-            headers: {
-              "Content-Type": "application/json",
-              ...auth.getAuthHeaders(),
-            },
-            body: JSON.stringify(payload),
-          });
-          if (response.ok) return true;
-        } catch (_error) {
-          // Try next method/endpoint
-        }
+    if (!token) return false;
+
+    for (const method of ["PUT", "POST", "PATCH"]) {
+      try {
+        const response = await fetch(endpoint, {
+          method,
+          headers: {
+            "Content-Type": "application/json",
+            Accept: "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+          body: JSON.stringify(payload),
+        });
+        if (response.ok) return true;
+      } catch (_error) {
+        // Try next method.
       }
     }
 
@@ -196,6 +198,9 @@ document.addEventListener("DOMContentLoaded", async () => {
 
   async function requestDeleteUser(userId) {
     const endpoint = `${auth.API_BASE_URL}/api/user/delete/${encodeURIComponent(userId)}`;
+    const token = auth?.getToken?.();
+
+    if (!token) return false;
 
     for (const method of ["DELETE"]) {
       try {
@@ -203,7 +208,8 @@ document.addEventListener("DOMContentLoaded", async () => {
           method,
           headers: {
             "Content-Type": "application/json",
-            ...auth.getAuthHeaders(),
+            Accept: "application/json",
+            Authorization: `Bearer ${token}`,
           },
         });
         if (response.ok) return true;
@@ -241,7 +247,8 @@ document.addEventListener("DOMContentLoaded", async () => {
 
     usersList.innerHTML = records
       .map((record, rowIndex) => {
-        const idDisplay = serializeValue(record?.id);
+        const userId = getUserId(record);
+        const idDisplay = serializeValue(userId);
         const keySet = new Set(Object.keys(record || {}).filter((key) => key !== "id"));
         const detailKeys = [
           ...orderedKeys.filter((key) => keySet.has(key)),
@@ -272,7 +279,7 @@ document.addEventListener("DOMContentLoaded", async () => {
                 <i class="fa-solid fa-pen-to-square me-1"></i>
                 Edit
               </button>
-              <button type="button" class="admin-delete-btn" data-row-index="${rowIndex}" data-user-id="${escapeHtml(idDisplay)}" aria-label="Delete user ${escapeHtml(idDisplay)}" title="Delete user">
+              <button type="button" class="admin-delete-btn" data-row-index="${rowIndex}" data-user-id="${escapeHtml(userId)}" aria-label="Delete user ${escapeHtml(idDisplay)}" title="Delete user">
                 <i class="fa-solid fa-trash"></i>
               </button>
             </div>
@@ -332,8 +339,7 @@ document.addEventListener("DOMContentLoaded", async () => {
       const user = currentUsers[rowIndex];
       document.getElementById("editUserFirstName").value = user?.first_name ?? "";
       document.getElementById("editUserLastName").value = user?.last_name ?? "";
-      document.getElementById("editUserEmail").value = user?.email ?? "";
-      document.getElementById("editUserPassword").value = user?.password ?? "";
+      document.getElementById("editUserRole").value = getRole(user) || "user";
       editUserModal?.show();
       return;
     }
@@ -342,8 +348,8 @@ document.addEventListener("DOMContentLoaded", async () => {
     if (!deleteBtn) return;
 
     const rowIndex = Number(deleteBtn.dataset.rowIndex);
-    const userId = Number(deleteBtn.dataset.userId);
-    if (Number.isNaN(rowIndex) || !Number.isFinite(userId)) return;
+    const userId = deleteBtn.dataset.userId;
+    if (Number.isNaN(rowIndex) || !String(userId || "").trim()) return;
 
     const shouldDelete = window.confirm("Delete this user?");
     if (!shouldDelete) return;
@@ -398,20 +404,21 @@ document.addEventListener("DOMContentLoaded", async () => {
       if (editingRowIndex === null || !currentUsers[editingRowIndex]) return;
 
       const user = currentUsers[editingRowIndex];
-      const userId = user?.id;
+      const userId = getUserId(user);
       if (!userId) {
         window.alert("Cannot update user: missing id.");
         return;
       }
 
       const payload = {
+        id: userId,
+        user_id: userId,
         first_name: document.getElementById("editUserFirstName")?.value?.trim() || "",
         last_name: document.getElementById("editUserLastName")?.value?.trim() || "",
-        email: document.getElementById("editUserEmail")?.value?.trim() || "",
-        password: document.getElementById("editUserPassword")?.value || "",
+        role: document.getElementById("editUserRole")?.value?.trim() || "",
       };
 
-      if (!payload.first_name || !payload.last_name || !payload.email || !payload.password) {
+      if (!payload.first_name || !payload.last_name || !payload.role) {
         window.alert("Please fill all fields.");
         return;
       }
