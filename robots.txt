@@ -1,0 +1,15 @@
+User-agent: *
+Allow: /
+Disallow: /login.html
+Disallow: /settings.html
+Disallow: /place_details.html
+Disallow: /admin.html
+Disallow: /admin_data.html
+Disallow: /admin_feedback.html
+Disallow: /admin_places.html
+Disallow: /admin_ratings.html
+Disallow: /admin_users.html
+Disallow: /admin_votes.html
+Disallow: /base.html
+
+Sitemap: https://place-2-visit-production.up.railway.app/sitemap.xml
