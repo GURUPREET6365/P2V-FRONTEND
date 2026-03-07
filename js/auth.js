@@ -1,5 +1,5 @@
 (() => {
-  const API_BASE_URL = "http://127.0.0.1:8000";
+  const API_BASE_URL = "https://place-2-visit-production.up.railway.app".replace(/\/+$/, "");
   const SESSION_KEY = "p2v_session";
   const LEGACY_TOKEN_KEY = "p2v_token";
   const SESSION_TTL_DAYS = 5;

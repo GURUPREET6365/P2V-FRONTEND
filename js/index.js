@@ -111,7 +111,7 @@ document.addEventListener("DOMContentLoaded", async () => {
   }
 
   async function requestPlacesFromApi() {
-    const base = auth?.API_BASE_URL || "http://127.0.0.1:8000";
+    const base = auth?.API_BASE_URL;
     const endpoints = [`${base}/api/all/place`, `${base}/api/place`];
     let lastError = null;
 

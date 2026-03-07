@@ -72,7 +72,7 @@ document.addEventListener("DOMContentLoaded", async () => {
   }
 
   async function requestPlacesFromApi(searchTerm = "") {
-    const base = auth?.API_BASE_URL || "http://127.0.0.1:8000";
+    const base = auth?.API_BASE_URL;
     const normalizedSearch = String(searchTerm || "").trim();
     const endpoints = normalizedSearch
       ? [
@@ -524,7 +524,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     }
 
     const response = await fetch(
-      `http://127.0.0.1:8000/api/vote/${encodeURIComponent(placeId)}`,
+      `${auth?.API_BASE_URL}/api/vote/${encodeURIComponent(placeId)}`,
       {
         method: "POST",
         headers: {
@@ -552,7 +552,7 @@ document.addEventListener("DOMContentLoaded", async () => {
       "Content-Type": "application/json",
       Authorization: `Bearer ${token}`,
     };
-    const endpoint = `${auth?.API_BASE_URL || "http://127.0.0.1:8000"}/api/place/rating/${encodeURIComponent(placeId)}`;
+    const endpoint = `${auth?.API_BASE_URL}/api/place/rating/${encodeURIComponent(placeId)}`;
     const response = await fetch(endpoint, {
       method: "POST",
       headers,
@@ -613,7 +613,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     if (!token) return null;
 
     const headers = { Authorization: `Bearer ${token}` };
-    const base = auth?.API_BASE_URL || "http://127.0.0.1:8000";
+    const base = auth?.API_BASE_URL;
     const endpoints = [
       `${base}/api/place/rating/${encodeURIComponent(placeId)}`,
       `${base}/api/place/${encodeURIComponent(placeId)}`,

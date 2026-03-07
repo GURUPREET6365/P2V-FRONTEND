@@ -1,5 +1,5 @@
-const API_AUTH_URL = `${window.AuthManager?.API_BASE_URL || "http://127.0.0.1:8000"}/api/auth/google`;
-const API_EMAIL_LOGIN_URL = `${window.AuthManager?.API_BASE_URL || "http://127.0.0.1:8000"}/api/login`;
+const API_AUTH_URL = `${window.AuthManager?.API_BASE_URL}/api/auth/google`;
+const API_EMAIL_LOGIN_URL = `${window.AuthManager?.API_BASE_URL}/api/login`;
 let loginInFlight = false;
 
 function getPostLoginRedirect() {

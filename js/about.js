@@ -45,7 +45,7 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   async function submitFeedback(payload) {
-    const base = auth?.API_BASE_URL || "http://127.0.0.1:8000";
+    const base = auth?.API_BASE_URL;
     const response = await fetch(`${base}/api/feedback`, {
       method: "POST",
       headers: {

@@ -57,7 +57,7 @@ PlaceExplorer-FRONTEND/
 
 ## 3. Prerequisites
 
-- Backend API running (expected base URL: `http://127.0.0.1:8000`)
+- Backend API running (expected base URL: `https://place-2-visit-production.up.railway.app`)
 - Modern browser (Chrome/Edge/Firefox)
 
 ## 4. Local Run
@@ -80,7 +80,7 @@ API base is defined in:
 - `js/auth.js` -> `API_BASE_URL`
 
 Default:
-- `http://127.0.0.1:8000`
+- `https://place-2-visit-production.up.railway.app`
 
 ## 6. Core User Flows
 
