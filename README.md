@@ -57,7 +57,7 @@ PlaceExplorer-FRONTEND/
 
 ## 3. Prerequisites
 
-- Backend API running (expected base URL: `https://place-2-visit-production.up.railway.app`)
+- Backend API running (expected base URL: `https://unvigilantly-unvacillating-candance.ngrok-free.dev`)
 - Modern browser (Chrome/Edge/Firefox)
 
 ## 4. Local Run
@@ -80,7 +80,7 @@ API base is defined in:
 - `js/auth.js` -> `API_BASE_URL`
 
 Default:
-- `https://place-2-visit-production.up.railway.app`
+- `https://unvigilantly-unvacillating-candance.ngrok-free.dev`
 
 ## 6. Core User Flows
 

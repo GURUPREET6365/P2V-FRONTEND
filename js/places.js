@@ -74,32 +74,33 @@ document.addEventListener("DOMContentLoaded", async () => {
   async function requestPlacesFromApi(searchTerm = "") {
     const base = auth?.API_BASE_URL;
     const normalizedSearch = String(searchTerm || "").trim();
-    const endpoints = normalizedSearch
-      ? [
-          `${base}/api/places/search/?search=${encodeURIComponent(
-            normalizedSearch,
-          )}`,
-        ]
-      : [`${base}/api/all/place`, `${base}/api/place`];
+    const endpoint = `${base}/api/all/place`;
 
-    let lastError = null;
-    for (const endpoint of endpoints) {
-      try {
-        const response = await fetch(endpoint, {
-          headers: auth?.getAuthHeaders?.() || {},
-        });
-        if (!response.ok) {
-          lastError = new Error(`API Error ${response.status} from ${endpoint}`);
-          continue;
-        }
-        const payload = await response.json();
-        return extractPlacesArray(payload);
-      } catch (error) {
-        lastError = error;
+    try {
+      const response = await fetch(endpoint, {
+        headers: auth?.getApiHeaders?.() || { Accept: "application/json" },
+      });
+      if (!response.ok) {
+        throw new Error(`API Error ${response.status} from ${endpoint}`);
       }
-    }
 
-    throw lastError || new Error("Unable to fetch places");
+      const payload = await response.json();
+      const places = extractPlacesArray(payload);
+      if (!normalizedSearch) return places;
+
+      const query = normalizedSearch.toLowerCase();
+      return places.filter((place) =>
+        [
+          place?.place_name,
+          place?.place_address,
+          place?.about_place,
+          place?.pincode,
+        ]
+          .some((value) => String(value ?? "").toLowerCase().includes(query)),
+      );
+    } catch (error) {
+      throw error || new Error("Unable to fetch places");
+    }
   }
 
   function setEmptyStateForSearch(searchTerm = "") {

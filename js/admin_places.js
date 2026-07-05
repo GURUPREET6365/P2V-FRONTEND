@@ -112,15 +112,25 @@ document.addEventListener("DOMContentLoaded", async () => {
 
   async function fetchPlaces(searchTerm = "") {
     const normalizedSearch = String(searchTerm || "").trim();
-    const endpoint = normalizedSearch
-      ? `${auth.API_BASE_URL}/api/admin/place/search?search=${encodeURIComponent(normalizedSearch)}`
-      : `${auth.API_BASE_URL}/api/admin/place`;
+    const endpoint = `${auth.API_BASE_URL}/api/all/place`;
     const response = await fetch(endpoint, {
-      headers: auth.getAuthHeaders(),
+      headers: auth.getApiHeaders(),
     });
     if (!response.ok) throw new Error(`Failed to fetch places (${response.status})`);
     const payload = await response.json();
-    return extractArray(payload);
+    const places = extractArray(payload);
+    if (!normalizedSearch) return places;
+
+    const query = normalizedSearch.toLowerCase();
+    return places.filter((place) =>
+      [
+        place?.place_name,
+        place?.place_address,
+        place?.about_place,
+        place?.pincode,
+      ]
+        .some((value) => String(value ?? "").toLowerCase().includes(query)),
+    );
   }
 
   async function requestUpdatePlace(placeId, patchBody) {

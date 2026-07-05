@@ -14,7 +14,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     places: {
       title: "Places",
       description: "All place records available in the database.",
-      endpoints: ["/api/all/place", "/api/place"],
+      endpoints: ["/api/all/place"],
       allowedRoles: ["staff", "admin"],
     },
     users: {
@@ -57,7 +57,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     for (const endpoint of endpoints) {
       try {
         const response = await fetch(`${auth.API_BASE_URL}${endpoint}`, {
-          headers: auth.getAuthHeaders(),
+          headers: auth.getApiHeaders(),
         });
         if (!response.ok) {
           lastError = new Error(`${response.status} from ${endpoint}`);

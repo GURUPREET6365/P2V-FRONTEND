@@ -12,4 +12,4 @@ Disallow: /admin_users.html
 Disallow: /admin_votes.html
 Disallow: /base.html
 
-Sitemap: https://place-2-visit-production.up.railway.app/sitemap.xml
+Sitemap: https://unvigilantly-unvacillating-candance.ngrok-free.dev/sitemap.xml

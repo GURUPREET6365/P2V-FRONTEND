@@ -112,26 +112,20 @@ document.addEventListener("DOMContentLoaded", async () => {
 
   async function requestPlacesFromApi() {
     const base = auth?.API_BASE_URL;
-    const endpoints = [`${base}/api/all/place`, `${base}/api/place`];
-    let lastError = null;
+    const endpoint = `${base}/api/all/place`;
 
-    for (const endpoint of endpoints) {
-      try {
-        const response = await fetch(endpoint, {
-          headers: auth?.getAuthHeaders?.() || {},
-        });
-        if (!response.ok) {
-          lastError = new Error(`API Error ${response.status} from ${endpoint}`);
-          continue;
-        }
-        const payload = await response.json();
-        return extractPlacesArray(payload);
-      } catch (error) {
-        lastError = error;
+    try {
+      const response = await fetch(endpoint, {
+        headers: auth?.getApiHeaders?.() || { Accept: "application/json" },
+      });
+      if (!response.ok) {
+        throw new Error(`API Error ${response.status} from ${endpoint}`);
       }
+      const payload = await response.json();
+      return extractPlacesArray(payload);
+    } catch (error) {
+      throw error || new Error("Unable to fetch places");
     }
-
-    throw lastError || new Error("Unable to fetch places");
   }
 
   function renderTopPlaces(places) {

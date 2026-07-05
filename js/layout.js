@@ -1,3 +1,249 @@
+(() => {
+  const API_BASE_URL = "https://unvigilantly-unvacillating-candance.ngrok-free.dev".replace(/\/+$/, "");
+
+  // Global fetch wrapper to handle credentials and ngrok browser warnings automatically
+  const originalFetch = window.fetch;
+  window.fetch = function (input, init) {
+    init = init || {};
+    const url = typeof input === "string" ? input : (input.url || "");
+    if (url.startsWith(API_BASE_URL)) {
+      init.credentials = init.credentials || "include";
+      init.headers = init.headers || {};
+      if (init.headers instanceof Headers) {
+        if (!init.headers.has("ngrok-skip-browser-warning")) {
+          init.headers.append("ngrok-skip-browser-warning", "true");
+        }
+      } else if (Array.isArray(init.headers)) {
+        const hasHeader = init.headers.some(([key]) => key.toLowerCase() === "ngrok-skip-browser-warning");
+        if (!hasHeader) {
+          init.headers.push(["ngrok-skip-browser-warning", "true"]);
+        }
+      } else {
+        init.headers["ngrok-skip-browser-warning"] = "true";
+      }
+    }
+    return originalFetch(input, init);
+  };
+
+  const SESSION_COOKIE = "p2v_session";
+  const LEGACY_TOKEN_KEY = "p2v_token";
+  const LEGACY_SESSION_KEY = "p2v_session";
+  const SESSION_TTL_DAYS = 5;
+  const SESSION_TTL_MS = SESSION_TTL_DAYS * 24 * 60 * 60 * 1000;
+
+  function notifyAuthChanged() {
+    window.dispatchEvent(new CustomEvent("p2v:auth-changed"));
+  }
+
+  function cookieSecureFlag() {
+    return window.location.protocol === "https:" ? "; Secure" : "";
+  }
+
+  function writeCookie(name, value, expiresAt) {
+    document.cookie = `${name}=${encodeURIComponent(value)}; expires=${new Date(expiresAt).toUTCString()}; path=/; SameSite=Lax${cookieSecureFlag()}`;
+  }
+
+  function deleteCookie(name) {
+    document.cookie = `${name}=; expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/; SameSite=Lax${cookieSecureFlag()}`;
+  }
+
+  function readCookie(name) {
+    return document.cookie
+      .split("; ")
+      .find((row) => row.startsWith(`${name}=`))
+      ?.split("=")
+      .slice(1)
+      .join("=") || null;
+  }
+
+  function parseSession(raw) {
+    if (!raw) return null;
+
+    try {
+      const session = JSON.parse(decodeURIComponent(raw));
+      if (!session || typeof session !== "object") return null;
+      if (!session.accessToken || typeof session.accessToken !== "string") return null;
+      if (!Number.isFinite(session.expiresAt)) return null;
+      return session;
+    } catch (error) {
+      return null;
+    }
+  }
+
+  function clearLegacyStorage() {
+    try {
+      localStorage.removeItem(LEGACY_SESSION_KEY);
+      localStorage.removeItem(LEGACY_TOKEN_KEY);
+    } catch (error) {
+      // Some browsers can block storage; cookies still keep the active session.
+    }
+  }
+
+  function clearSession(silent = false) {
+    deleteCookie(SESSION_COOKIE);
+    clearLegacyStorage();
+    if (!silent) notifyAuthChanged();
+  }
+
+  function saveSession(accessToken, ttlMs = SESSION_TTL_MS) {
+    const now = Date.now();
+    const session = {
+      accessToken,
+      createdAt: now,
+      expiresAt: now + ttlMs,
+    };
+
+    writeCookie(SESSION_COOKIE, JSON.stringify(session), session.expiresAt);
+    clearLegacyStorage();
+    notifyAuthChanged();
+    return session;
+  }
+
+  function migrateLegacyTokenIfNeeded() {
+    try {
+      const oldSession = parseSession(localStorage.getItem(LEGACY_SESSION_KEY));
+      if (oldSession) {
+        saveSession(oldSession.accessToken, Math.max(0, oldSession.expiresAt - Date.now()));
+        return oldSession;
+      }
+
+      const oldToken = localStorage.getItem(LEGACY_TOKEN_KEY);
+      if (oldToken) return saveSession(oldToken);
+    } catch (error) {
+      return null;
+    }
+
+    return null;
+  }
+
+  function getSession() {
+    const session =
+      parseSession(readCookie(SESSION_COOKIE)) ||
+      migrateLegacyTokenIfNeeded();
+
+    if (!session) return null;
+
+    if (Date.now() >= session.expiresAt) {
+      clearSession();
+      return null;
+    }
+
+    return session;
+  }
+
+  function getToken() {
+    return getSession()?.accessToken ?? null;
+  }
+
+  function hasValidSession() {
+    return Boolean(getToken());
+  }
+
+  function getSessionInfo() {
+    const session = getSession();
+    if (!session) return null;
+
+    return {
+      createdAt: session.createdAt,
+      expiresAt: session.expiresAt,
+      remainingMs: Math.max(0, session.expiresAt - Date.now()),
+    };
+  }
+
+  function getAuthHeaders() {
+    const token = getToken();
+    return token ? { Authorization: `Bearer ${token}` } : {};
+  }
+
+  function getApiHeaders(extraHeaders = {}) {
+    return {
+      Accept: "application/json",
+      "ngrok-skip-browser-warning": "true",
+      ...getAuthHeaders(),
+      ...extraHeaders,
+    };
+  }
+
+  async function verifySession() {
+    const token = getToken();
+    if (!token) return null;
+
+    try {
+      const response = await fetch(`${API_BASE_URL}/api/me`, {
+        method: "GET",
+        headers: getApiHeaders(),
+      });
+
+      if (response.ok) {
+        return await response.json();
+      }
+
+      if (response.status === 401 || response.status === 403) {
+        clearSession();
+      }
+      return null;
+    } catch (error) {
+      return null;
+    }
+  }
+
+  async function requireAuth(options = {}) {
+    const redirectTo = options.redirectTo || "login.html";
+    const verifyWithServer = options.verifyWithServer === true;
+
+    if (!hasValidSession()) {
+      window.location.href = redirectTo;
+      return false;
+    }
+
+    if (verifyWithServer) {
+      const user = await verifySession();
+      if (!user) {
+        window.location.href = redirectTo;
+        return false;
+      }
+    }
+
+    return true;
+  }
+
+  function logout(options = {}) {
+    const redirectTo = options.redirectTo || "index.html";
+
+    // Clear backend cookies (ignore errors if logout endpoint not fully integrated yet)
+    fetch(`${API_BASE_URL}/api/logout`, { method: "POST" }).catch(() => {});
+
+    clearSession();
+
+    if (window.google?.accounts?.id?.disableAutoSelect) {
+      window.google.accounts.id.disableAutoSelect();
+    }
+
+    if (redirectTo) {
+      window.location.href = redirectTo;
+    }
+  }
+
+  window.AuthManager = {
+    API_BASE_URL,
+    SESSION_TTL_DAYS,
+    SESSION_TTL_MS,
+    setSession: saveSession,
+    clearSession,
+    getSession,
+    getSessionInfo,
+    getToken,
+    hasValidSession,
+    getAuthHeaders,
+    getApiHeaders,
+    verifySession,
+    requireAuth,
+    logout,
+  };
+  window.verifySession = verifySession;
+  window.logout = (redirectTo = "index.html") => logout({ redirectTo });
+})();
+
 document.addEventListener("DOMContentLoaded", () => {
   const navRoot = document.getElementById("appNav");
   const footerRoot = document.getElementById("appFooter");
