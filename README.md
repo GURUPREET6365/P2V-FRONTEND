@@ -1,6 +1,6 @@
-# PlaceExplorer Frontend
+# Place2Visit Frontend
 
-Frontend application for PlaceExplorer, built with vanilla HTML/CSS/JavaScript and Bootstrap.
+Frontend application for Place2Visit, built with vanilla HTML/CSS/JavaScript and Bootstrap.
 
 This project provides:
 - Public and authenticated place browsing
@@ -20,7 +20,7 @@ This project provides:
 ## 2. Project Structure
 
 ```text
-PlaceExplorer-FRONTEND/
+Place2Visit-FRONTEND/
 ├── css/
 │   ├── index.css
 │   ├── auth.css
@@ -67,7 +67,7 @@ Serve this folder with any static server.
 Example (Python):
 
 ```bash
-cd PlaceExplorer-FRONTEND
+cd Place2Visit-FRONTEND
 python -m http.server 5500
 ```
 

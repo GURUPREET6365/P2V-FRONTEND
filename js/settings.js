@@ -38,7 +38,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 
     const fullName =
       `${userData.first_name || ""} ${userData.last_name || ""}`.trim() ||
-      "PlaceExplorer User";
+      "Place2Visit User";
 
     document.getElementById("userName").innerText = fullName;
     document.getElementById("userEmail").innerText = userData.email || "N/A";
